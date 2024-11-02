@@ -1,5 +1,8 @@
 # Playwright
 
+
+![Build Status](https://github.com/zhukoff-av/Playwright/actions/workflows/main.yml/badge.svg)
+
 This project uses Playwright to automate end-to-end testing for web applications. It includes essential setup, sample scripts, and instructions for running tests in various environments and modes.
 
 Table of Contents
