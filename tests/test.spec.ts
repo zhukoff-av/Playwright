@@ -5,3 +5,9 @@ test('has title', async ({page}) => {
 
     await expect(page).toHaveTitle(/Playwright/)
 })
+
+
+// todo: Write test example
+// click
+// locator
+// getByTestId
