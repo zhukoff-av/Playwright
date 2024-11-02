@@ -16,10 +16,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Install pnpm
+        run: npm install -g pnpm
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: pnpm playwright install --with-deps
       - name: Run Playwright tests
         run: npx playwright test --project chromium --grep '@githubAction'
       - uses: actions/upload-artifact@v3
