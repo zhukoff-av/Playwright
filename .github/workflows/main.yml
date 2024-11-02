@@ -23,7 +23,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test --project chromium --grep '@githubAction'
+        run: pnpm playwright test --project chromium --grep '@githubAction'
       - uses: actions/upload-artifact@v3
         if: always()
         with:
