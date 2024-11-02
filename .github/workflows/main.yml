@@ -23,8 +23,8 @@ jobs:
         run: npm install -g pnpm
       - name: Install dependencies
         run: pnpm install
-      - name: Install Playwright Browsers
-        run: pnpm playwright install --with-deps
+#      - name: Install Playwright Browsers
+#        run: pnpm playwright install --with-deps
       - name: Run Playwright tests
         run: pnpm playwright test --project chromium --grep '@githubAction'
       - name: Upload Playwright HTML Report
