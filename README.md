@@ -2,6 +2,7 @@
 
 
 ![Build Status](https://github.com/zhukoff-av/Playwright/actions/workflows/main.yml/badge.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/0984caa92765329bb5d4/maintainability)](https://codeclimate.com/github/zhukoff-av/Playwright/maintainability)
+![Top Language](https://img.shields.io/github/languages/top/zhukoff-av/Playwright)
 
 
 
