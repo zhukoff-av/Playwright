@@ -23,6 +23,7 @@ Preferred workflow:
 5. Review every repaired test with the reviewer agent instructions before considering it complete.
 6. Address actionable reviewer findings, then rerun the affected tests.
 7. Commit and push the completed changes automatically before closing or reporting the linked GitHub issue as complete.
+8. Check GitHub Actions for the pushed commit or PR; if CI fails, invoke the CI/CD repair workflow before closing or reporting the linked GitHub issue as complete.
 
 Review gate:
 
@@ -36,6 +37,13 @@ Publish gate:
 - Do not close a linked GitHub issue, mark it complete, or report it as done until the commit has been pushed successfully.
 - If there is no upstream branch, push with upstream tracking for the current branch.
 - If git commit or push fails, report the failure and leave the GitHub issue open.
+
+CI status gate:
+
+- After each automatic push, check the GitHub Actions runs or PR checks associated with the pushed commit.
+- If any required CI check fails, invoke `.github/agents/cicd-repair.agent.md` immediately and follow the CI/CD repair workflow.
+- Do not close a linked GitHub issue, mark it complete, or report it as done until required CI checks pass, or until a real product defect or external CI infrastructure failure is identified and documented.
+- Prefer checking CI immediately after each push. Use scheduled CI monitoring only as an explicit follow-up automation when requested, not as the primary repair trigger.
 
 CI/CD repair workflow:
 
