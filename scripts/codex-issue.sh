@@ -4,6 +4,7 @@ set -euo pipefail
 usage() {
   echo "Usage: $0 <issue-number> [repo]" >&2
   echo "Example: $0 7 zhukoff-av/Playwright" >&2
+  echo "Set CODEX_ISSUE_AUTO_CLOSE=false to leave the issue open after a successful run." >&2
 }
 
 if [[ "${1:-}" == "--" ]]; then
@@ -71,3 +72,14 @@ echo "Starting Codex for issue #$issue_number in $workdir..."
   echo
   cat "$issue_file"
 } | "$codex_bin" exec -C "$workdir" -
+
+if [[ "${CODEX_ISSUE_AUTO_CLOSE:-true}" == "false" ]]; then
+  echo "Codex completed successfully. Leaving issue #$issue_number open because CODEX_ISSUE_AUTO_CLOSE=false."
+  exit 0
+fi
+
+echo "Codex completed successfully. Closing issue #$issue_number..."
+gh issue close "$issue_number" \
+  --repo "$repo" \
+  --reason completed \
+  --comment "Implemented by local Codex agent run from \`$workdir\`."
