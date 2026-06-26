@@ -16,6 +16,7 @@ Table of Contents
 - [Project Overview](#project-overview)
 - [Installation](#installation)
 - [Scripts](#scripts)
+- [Using GitHub Issues with Agents](#using-github-issues-with-agents)
 - [Usage](#usage)
 - [Running Tests](#running-tests)
 - [Test Reporting](#test-reporting)
@@ -74,6 +75,32 @@ Opens the Playwright Test Runner in UI mode, allowing you to run and debug indiv
     pnpm run test-chromium
 
 Runs tests specifically in Chromium with a visible browser window.
+
+### Using GitHub Issues with Agents
+
+Use the `codex:issue` script to have a local Codex agent implement a GitHub issue.
+The script fetches the issue with the GitHub CLI, starts Codex in this repository, and
+passes the issue body and comments to the agent.
+
+For example, to run Codex against issue `#7`:
+
+    pnpm run codex:issue -- 7
+
+Requirements:
+
+- Install and authenticate the GitHub CLI: `gh auth login`.
+- Make sure the Codex CLI is available on your `PATH`, or set `CODEX_BIN=/path/to/codex`.
+- Run the command from this repository so the script can detect the GitHub repo.
+
+Optional settings:
+
+- Pass the repo explicitly if it cannot be detected:
+
+      pnpm run codex:issue -- 7 zhukoff-av/Playwright
+
+- Leave the issue open after a successful agent run:
+
+      CODEX_ISSUE_AUTO_CLOSE=false pnpm run codex:issue -- 7
 
 ### Usage
 
