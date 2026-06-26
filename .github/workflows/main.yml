@@ -11,24 +11,33 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     container:
-      image: mcr.microsoft.com/playwright:v1.48.1-jammy
+      image: mcr.microsoft.com/playwright:v1.60.0-noble
       options: --user 1001
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
         with:
-          node-version: 18
-      - name: Install pnpm
-        run: npm install -g pnpm
+          version: 10.5.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
 #      - name: Install Playwright Browsers
 #        run: pnpm playwright install --with-deps
       - name: Run Playwright tests
-        run: pnpm playwright test --project chromium --grep '@githubAction'
+        run: pnpm exec playwright test --project chromium-swag --grep '@githubAction'
+
       - name: Upload Playwright HTML Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-html-report
