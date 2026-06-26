@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "codex:issue": "scripts/codex-issue.sh",
     "example": "pnpm exec playwright test",
     "report": "pnpm exec playwright show-report",
     "test-ui-mode": "pnpm playwright test --ui",
