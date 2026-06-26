@@ -34,7 +34,7 @@ jobs:
 #      - name: Install Playwright Browsers
 #        run: pnpm playwright install --with-deps
       - name: Run Playwright tests
-        run: pnpm exec playwright test --project chromium-swag --grep '@githubAction'
+        run: pnpm exec playwright test --project chromium-ci --grep '@githubAction'
 
       - name: Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
