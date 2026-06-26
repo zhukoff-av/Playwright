@@ -122,6 +122,27 @@ Review project organization, including:
 Avoid circular dependencies, giant utility files, and God Objects.
 Recommend dependency boundaries when they improve scalability or clarity.
 
+For newly generated Playwright tests, also verify the project structure contract:
+- Domain-specific specs must live under `tests/<domain>/<feature>/`, not directly in the root of `tests/`.
+- Page Objects must live under `tests/<domain>/<feature>/pages/`.
+- Components must live under `tests/<domain>/<feature>/components/`.
+- Fixtures must live under `tests/<domain>/<feature>/fixtures/`.
+- For a URL like `https://demoqa.com/text-box`, expect a structure like
+  `tests/demoqa/text-box/reject-invalid-email-format.spec.ts`.
+
+Flag direct Page Object construction in specs when a fixture exists or should be introduced for the generated domain:
+
+```ts
+const textBoxPage = new DemoqaTextBoxPage(page);
+```
+
+Recommend importing `test` from the local fixture module instead, such as `./fixtures/demoqa.fixtures`, and using a
+typed fixture like `demoqaPage` or `textBoxPage` in the test signature.
+
+When reviewing domain fixtures, prefer thin composition containers. A domain fixture such as `demoqaPage` should compose
+pages and components, for example `demoqaPage.textBox`, but should not become a God Object containing every locator,
+action, and assertion for the product.
+
 ## 6. TypeScript Best Practices
 
 Check:

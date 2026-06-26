@@ -48,6 +48,7 @@ application behavior.
 - Immediately after reading the test log, invoke `generator_write_test` with the generated source code
   - File should contain single test
   - File name must be fs-friendly scenario name
+  - File path must follow the domain/feature folder structure described in "Generated file structure"
   - Test must be placed in a describe matching the top-level test plan item
   - Test title must match the scenario name
   - Includes a comment with the step text before each step execution. Do not duplicate comments if step requires
@@ -58,6 +59,119 @@ application behavior.
 - Do not consider the generated test complete until actionable reviewer findings are addressed or explicitly documented
   as non-actionable.
 - After addressing reviewer findings, run the affected test and report the reviewer outcome plus verification result.
+
+# Generated file structure
+
+Generated tests must be organized by product/domain and feature. Do not place new domain-specific specs or page objects
+directly in the root of `tests/`.
+
+Use this structure:
+
+```text
+tests/
+  <domain>/
+    <feature>/
+      fixtures/
+        <domain>.fixtures.ts
+      pages/
+        <domain>.page.ts
+        <feature>.page.ts
+      components/
+        *.component.ts
+      <scenario-name>.spec.ts
+```
+
+Naming rules:
+- Convert the hostname into a short domain folder. Examples: `demoqa.com` -> `demoqa`;
+  `showcase.alloyservice.com` -> the existing project domain folder, such as `alloy` or `alloyservice`.
+- Convert the URL path into a feature folder. Example: `/text-box` -> `text-box`.
+- Convert the scenario title into the spec filename. Example: `Reject Invalid Email Format` ->
+  `reject-invalid-email-format.spec.ts`.
+
+Example for `https://demoqa.com/text-box`:
+
+```text
+tests/demoqa/text-box/
+  fixtures/demoqa.fixtures.ts
+  pages/demoqa.page.ts
+  pages/text-box.page.ts
+  reject-invalid-email-format.spec.ts
+```
+
+# Fixtures and Page Objects
+
+Prefer typed Playwright fixtures over constructing page objects directly in every spec.
+
+Allowed fixture patterns:
+- For a simple isolated page, a per-page fixture such as `textBoxPage` is acceptable.
+- For a domain or feature with multiple pages/components, use a domain fixture such as `demoqaPage` that composes the
+  needed pages and components.
+
+Do not write new tests like this when a fixture exists or is being introduced:
+
+```ts
+const textBoxPage = new DemoqaTextBoxPage(page);
+```
+
+Instead, import `test` from the local fixture module and use the fixture in the test signature:
+
+```ts
+import { expect } from '@playwright/test';
+import { test } from './fixtures/demoqa.fixtures';
+
+test.describe('DemoQA Text Box page', () => {
+  test('Reject Invalid Email Format', async ({ demoqaPage }) => {
+    await demoqaPage.textBox.open();
+    await demoqaPage.textBox.fillForm({
+      fullName: 'Alan Turing',
+      email: 'alan.turing',
+      currentAddress: 'Bletchley Park',
+      permanentAddress: 'Maida Vale',
+    });
+    await demoqaPage.textBox.submit();
+
+    await expect(demoqaPage.textBox.emailInput).toHaveClass(/field-error/);
+    await expect(demoqaPage.textBox.outputPanel).toBeHidden();
+  });
+});
+```
+
+Fixture example:
+
+```ts
+import { test as base } from '@playwright/test';
+import { DemoqaPage } from '../pages/demoqa.page';
+
+type DemoqaFixtures = {
+  demoqaPage: DemoqaPage;
+};
+
+export const test = base.extend<DemoqaFixtures>({
+  demoqaPage: async ({ page }, use) => {
+    await use(new DemoqaPage(page));
+  },
+});
+
+export { expect } from '@playwright/test';
+```
+
+Domain container example:
+
+```ts
+import type { Page } from '@playwright/test';
+import { TextBoxPage } from './text-box.page';
+
+export class DemoqaPage {
+  readonly textBox: TextBoxPage;
+
+  constructor(page: Page) {
+    this.textBox = new TextBoxPage(page);
+  }
+}
+```
+
+Keep domain containers thin. They should compose pages/components and shared dependencies, not become God Objects with
+all locators and actions for the whole product.
 
    <example-generation>
    For following plan:
@@ -76,14 +190,16 @@ application behavior.
 
    Following file is generated:
 
-   ```ts file=add-valid-todo.spec.ts
+   ```ts file=tests/todo/basic-flow/add-valid-todo.spec.ts
    // spec: specs/plan.md
    // seed: tests/seed.spec.ts
 
+   import { test } from './fixtures/todo.fixtures';
+
    test.describe('Adding New Todos', () => {
-     test('Add Valid Todo', async { page } => {
+     test('Add Valid Todo', async ({ todoPage }) => {
        // 1. Click in the "What needs to be done?" input field
-       await page.click(...);
+       await todoPage.newTodoInput.click();
 
        ...
      });

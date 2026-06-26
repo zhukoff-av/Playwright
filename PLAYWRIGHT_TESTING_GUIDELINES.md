@@ -314,22 +314,60 @@ Recommended structure:
 
 ```text
 tests/
-  alloy/
-    pages/
-      login.page.ts
-      dashboard.page.ts
-      ticket-form.page.ts
-    components/
-      header.component.ts
-      assistant.component.ts
-    fixtures/
-      alloy.fixtures.ts
-    sign-in-with-valid-demo-user.spec.ts
-    create-a-technical-issue-ticket.spec.ts
-    browse-knowledge-base-articles.spec.ts
+  <domain>/
+    <feature>/
+      pages/
+        <domain>.page.ts
+        <feature>.page.ts
+      components/
+        header.component.ts
+        assistant.component.ts
+      fixtures/
+        <domain>.fixtures.ts
+      sign-in-with-valid-demo-user.spec.ts
+      create-a-technical-issue-ticket.spec.ts
 ```
 
-Spec files own scenarios. Page Objects and component files own UI interaction details.
+For example, a test for `https://demoqa.com/text-box` should live under:
+
+```text
+tests/demoqa/text-box/
+  fixtures/demoqa.fixtures.ts
+  pages/demoqa.page.ts
+  pages/text-box.page.ts
+  reject-invalid-email-format.spec.ts
+```
+
+Naming rules:
+
+- use a short domain folder from the hostname, such as `demoqa` for `demoqa.com`;
+- use a feature folder from the URL path, such as `text-box` for `/text-box`;
+- use a fs-friendly scenario filename, such as `reject-invalid-email-format.spec.ts`.
+
+Spec files own scenarios. Page Objects and component files own UI interaction details. Fixtures own object composition.
+Prefer importing `test` from a local fixture module when a spec needs page objects or shared components:
+
+```ts
+import { expect } from '@playwright/test';
+import { test } from './fixtures/demoqa.fixtures';
+
+test('Reject Invalid Email Format', async ({ demoqaPage }) => {
+  await demoqaPage.textBox.open();
+  await demoqaPage.textBox.fillForm({
+    fullName: 'Alan Turing',
+    email: 'alan.turing',
+    currentAddress: 'Bletchley Park',
+    permanentAddress: 'Maida Vale',
+  });
+
+  await expect(demoqaPage.textBox.emailInput).toHaveClass(/field-error/);
+});
+```
+
+For simple pages, a focused fixture such as `textBoxPage` is acceptable. For growing domains, prefer a thin domain
+fixture such as `demoqaPage` that composes smaller page and component objects. Avoid constructing page objects directly
+inside each spec when a fixture exists or is being introduced, and avoid God Objects that collect all locators and
+actions for an entire product.
 
 ## 19. Code review checklist
 
@@ -340,6 +378,8 @@ Before merging, check that:
 - there is no `waitForTimeout`, except in rare justified cases;
 - locators are stable and user-facing;
 - repeated code has been extracted;
+- new domain-specific specs are not placed directly in the root of `tests/`;
+- page objects and components are composed through fixtures when that improves maintainability;
 - Page Objects do not contain unnecessary business logic;
 - the test is independent from other tests;
 - data is unique or controlled;
