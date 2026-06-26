@@ -1,3 +1,5 @@
+// spec: specs/alloy-login.md
+// plan-id: ALLOY-LOGIN-001
 import { expect, test } from "@playwright/test";
 import { expectPortalSearch } from "./helpers";
 

@@ -143,6 +143,17 @@ When reviewing domain fixtures, prefer thin composition containers. A domain fix
 pages and components, for example `demoqaPage.textBox`, but should not become a God Object containing every locator,
 action, and assertion for the product.
 
+Also verify test-plan synchronization:
+- Every reviewed Playwright spec must have top-of-file metadata comments:
+  - `// spec: specs/path-to-plan.md`
+  - `// plan-id: PLAN-ID`
+- The `// spec:` file must exist under `specs/`.
+- Each `// plan-id:` must match exactly one scenario in that plan. A combined legacy spec may have multiple
+  `// plan-id:` lines, but each ID still needs one matching scenario.
+- The matching scenario must have an `Automation` line pointing to the reviewed test file.
+- Flag tests that reference missing plan IDs, duplicate plan IDs, or a plan whose `Automation` line is still
+  `Not automated`.
+
 ## 6. TypeScript Best Practices
 
 Check:

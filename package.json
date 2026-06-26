@@ -6,6 +6,7 @@
   "scripts": {
     "codex:issue": "scripts/codex-issue.sh",
     "example": "pnpm exec playwright test",
+    "plan-coverage": "node scripts/plan-coverage.js",
     "report": "pnpm exec playwright show-report",
     "test-ui-mode": "pnpm playwright test --ui",
     "test-chromium": "pnpm playwright test --project chromium --headed"

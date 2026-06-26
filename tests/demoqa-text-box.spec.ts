@@ -1,3 +1,5 @@
+// spec: specs/demoqa-text-box.md
+// plan-id: DEMOQA-TEXT-BOX-001
 import { expect, test } from '@playwright/test';
 import { DemoqaTextBoxPage } from './demoqa-text-box.page';
 

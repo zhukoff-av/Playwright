@@ -6,6 +6,9 @@ Validate that a user can sign in to Alloy Service and land on the self-service p
 
 ## Scenario
 
+**Plan ID:** `ALLOY-LOGIN-001`
+**Automation:** Automated in `tests/archive/_5/alloy-login.spec.ts`
+
 1. Open `/hd`.
 2. Fill the user name and password fields.
 3. Submit the login form.

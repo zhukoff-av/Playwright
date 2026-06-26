@@ -23,6 +23,9 @@ Observed portal areas:
 
 ### 1.1 Sign in with valid demo user
 
+**Plan ID:** `ALLOY-PORTAL-AUTH-001`
+**Automation:** Automated in `tests/archive/_5/sign-in-with-valid-demo-user.spec.ts`
+
 **Starting state:** Fresh browser context with no saved portal session.
 
 **Steps:**
@@ -43,6 +46,9 @@ Observed portal areas:
 
 ### 1.2 Reject invalid credentials
 
+**Plan ID:** `ALLOY-PORTAL-AUTH-002`
+**Automation:** Automated in `tests/archive/_5/reject-invalid-credentials.spec.ts`
+
 **Starting state:** Fresh browser context with no saved portal session.
 
 **Steps:**
@@ -62,6 +68,9 @@ Observed portal areas:
 
 ### 2.1 Show key dashboard modules after sign-in
 
+**Plan ID:** `ALLOY-PORTAL-HOME-001`
+**Automation:** Automated in `tests/archive/_5/show-key-dashboard-modules-after-sign-in.spec.ts`
+
 **Starting state:** User is signed in and on `/hd/`.
 
 **Steps:**
@@ -78,6 +87,9 @@ Observed portal areas:
 - Popular Service Catalog Items and Popular Articles contain clickable records.
 
 ### 2.2 Search from Find a Solution
+
+**Plan ID:** `ALLOY-PORTAL-HOME-002`
+**Automation:** Automated in `tests/archive/_5/search-from-find-a-solution.spec.ts`
 
 **Starting state:** User is signed in and on `/hd/`.
 
@@ -97,6 +109,9 @@ Observed portal areas:
 
 ### 3.1 Open Report a Technical Issue form
 
+**Plan ID:** `ALLOY-PORTAL-TICKET-001`
+**Automation:** Automated in `tests/archive/_5/open-report-a-technical-issue-form.spec.ts`
+
 **Starting state:** User is signed in and on `/hd/`.
 
 **Steps:**
@@ -112,6 +127,9 @@ Observed portal areas:
 
 ### 3.2 Validate required fields on ticket form
 
+**Plan ID:** `ALLOY-PORTAL-TICKET-002`
+**Automation:** Automated in `tests/archive/_5/validate-required-fields-on-ticket-form.spec.ts`
+
 **Starting state:** User is signed in and the `Report a Technical Issue` form is open.
 
 **Steps:**
@@ -126,6 +144,9 @@ Observed portal areas:
 - No ticket is created.
 
 ### 3.3 Create a technical issue ticket
+
+**Plan ID:** `ALLOY-PORTAL-TICKET-003`
+**Automation:** Automated in `tests/archive/_5/create-a-technical-issue-ticket.spec.ts`
 
 **Starting state:** User is signed in and the `Report a Technical Issue` form is open.
 
@@ -150,6 +171,9 @@ Observed portal areas:
 
 ### 4.1 Browse all service catalog items
 
+**Plan ID:** `ALLOY-PORTAL-SERVICE-001`
+**Automation:** Automated in `tests/archive/_5/browse-all-service-catalog-items.spec.ts`
+
 **Starting state:** User is signed in.
 
 **Steps:**
@@ -167,6 +191,9 @@ Observed portal areas:
 
 ### 4.2 Filter service catalog by category
 
+**Plan ID:** `ALLOY-PORTAL-SERVICE-002`
+**Automation:** Automated in `tests/archive/_5/filter-service-catalog-by-category.spec.ts`
+
 **Starting state:** User is signed in and on the Service Catalog page.
 
 **Steps:**
@@ -183,6 +210,9 @@ Observed portal areas:
 - Equipment category shows equipment-related services such as hardware, phone, printer, toner, or lending requests.
 
 ### 4.3 Open a service item details page
+
+**Plan ID:** `ALLOY-PORTAL-SERVICE-003`
+**Automation:** Automated in `tests/archive/_5/open-a-service-item-details-page.spec.ts`
 
 **Starting state:** User is signed in and on the Service Catalog page.
 
@@ -202,6 +232,9 @@ Observed portal areas:
 
 ### 5.1 View My Tickets list
 
+**Plan ID:** `ALLOY-PORTAL-TICKETS-001`
+**Automation:** Automated in `tests/archive/_5/view-my-tickets-list.spec.ts`
+
 **Starting state:** User is signed in.
 
 **Steps:**
@@ -217,6 +250,9 @@ Observed portal areas:
 - Pagination or row count is visible.
 
 ### 5.2 Open ticket details from list
+
+**Plan ID:** `ALLOY-PORTAL-TICKETS-002`
+**Automation:** Automated in `tests/archive/_5/open-ticket-details-from-list.spec.ts`
 
 **Starting state:** User is signed in and on the tickets list.
 
@@ -235,6 +271,9 @@ Observed portal areas:
 
 ### 6.1 Browse Knowledge Base articles
 
+**Plan ID:** `ALLOY-PORTAL-KB-001`
+**Automation:** Automated in `tests/archive/_5/browse-knowledge-base-articles.spec.ts`
+
 **Starting state:** User is signed in.
 
 **Steps:**
@@ -252,6 +291,9 @@ Observed portal areas:
 
 ### 6.2 Filter Knowledge Base by article type
 
+**Plan ID:** `ALLOY-PORTAL-KB-002`
+**Automation:** Automated in `tests/archive/_5/filter-knowledge-base-by-article-type.spec.ts`
+
 **Starting state:** User is signed in and on the Knowledge Base page.
 
 **Steps:**
@@ -265,6 +307,9 @@ Observed portal areas:
 - Empty results, if any, show a readable empty state.
 
 ### 6.3 View announcement details
+
+**Plan ID:** `ALLOY-PORTAL-ANNOUNCEMENT-001`
+**Automation:** Automated in `tests/archive/_5/view-announcement-details.spec.ts`
 
 **Starting state:** User is signed in.
 
@@ -283,6 +328,9 @@ Observed portal areas:
 
 ### 7.1 Start a basic assistant conversation
 
+**Plan ID:** `ALLOY-PORTAL-ASSISTANT-001`
+**Automation:** Automated in `tests/archive/_5/start-a-basic-assistant-conversation.spec.ts`
+
 **Starting state:** User is signed in and the AI assistant widget is visible.
 
 **Steps:**
@@ -296,4 +344,3 @@ Observed portal areas:
 - User message appears in the chat.
 - Assistant returns a response or relevant portal guidance.
 - Chat controls such as new chat, helpful/not helpful, minimize, or expand remain usable.
-

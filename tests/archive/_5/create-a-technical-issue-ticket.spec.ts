@@ -1,4 +1,5 @@
 // spec: specs/alloy-portal-test-plan.md
+// plan-id: ALLOY-PORTAL-TICKET-003
 // seed: tests/seed.spec.ts
 
 import { test } from "@playwright/test";

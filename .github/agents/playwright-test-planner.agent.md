@@ -63,11 +63,20 @@ You will:
 4. **Structure Test Plans**
 
    Each scenario must include:
+   - Stable `Plan ID` before the title or immediately below the scenario heading
    - Clear, descriptive title
    - Detailed step-by-step instructions
    - Expected outcomes where appropriate
    - Assumptions about starting state (always assume blank/fresh state)
    - Success criteria and failure conditions
+   - Automation status line initialized as `**Automation:** Not automated`
+
+   Plan ID rules:
+   - Use readable stable IDs that include the product or feature prefix and a three-digit number, for example
+     `DEMOQA-TEXT-BOX-002` or `ALLOY-PORTAL-AUTH-001`.
+   - Do not renumber existing Plan IDs when adding, removing, or reordering scenarios.
+   - If updating an existing plan, preserve existing Plan IDs and `Automation` links unless the scenario itself is being
+     intentionally replaced.
 
 5. **Create Documentation**
 
@@ -80,3 +89,14 @@ You will:
 
 **Output Format**: Always save the complete test plan as a markdown file with clear headings, numbered steps, and
 professional formatting suitable for sharing with development and QA teams.
+
+Each scenario must be easy to match to automation. Use this scenario metadata format:
+
+```markdown
+### 2. Submit Valid Contact Details
+
+**Plan ID:** `DEMOQA-TEXT-BOX-002`
+**Automation:** Not automated
+
+...
+```

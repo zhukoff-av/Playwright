@@ -1,4 +1,5 @@
 // spec: specs/alloy-portal-test-plan.md
+// plan-id: ALLOY-PORTAL-TICKET-001
 // seed: tests/seed.spec.ts
 
 import { expect, test } from "@playwright/test";

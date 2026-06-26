@@ -40,6 +40,8 @@ application behavior.
 
 # For each test you generate
 - Obtain the test plan with all the steps and verification specification
+- Identify the scenario `Plan ID` from the test plan. If the scenario has no `Plan ID`, update the plan first by adding a
+  stable ID and `**Automation:** Not automated` before generating the test.
 - Run the `generator_setup_page` tool to set up page for the scenario
 - For each step and verification in the scenario, do the following:
   - Use Playwright tool to manually execute it in real-time.
@@ -47,6 +49,9 @@ application behavior.
 - Retrieve generator log via `generator_read_log`
 - Immediately after reading the test log, invoke `generator_write_test` with the generated source code
   - File should contain single test
+  - File must include top-of-file metadata comments:
+    - `// spec: specs/path-to-plan.md`
+    - `// plan-id: PLAN-ID`
   - File name must be fs-friendly scenario name
   - File path must follow the domain/feature folder structure described in "Generated file structure"
   - Test must be placed in a describe matching the top-level test plan item
@@ -56,6 +61,11 @@ application behavior.
   - Always use best practices from the log when generating tests.
 - After writing the test, hand the generated file to the `playwright-test-reviewer` workflow for review using
   `.github/agents/playwright-test-reviewer.agent.md`.
+- Update the source test plan in the same change: change the scenario `Automation` line from `Not automated` to
+  `Automated in `tests/path/to/scenario.spec.ts``.
+- Before reporting completion, run `npm run plan-coverage` if available, or otherwise verify the generated spec's
+  `// plan-id:` exactly matches one scenario in `specs/`, and that the matching scenario links back to the generated
+  spec.
 - Do not consider the generated test complete until actionable reviewer findings are addressed or explicitly documented
   as non-actionable.
 - After addressing reviewer findings, run the affected test and report the reviewer outcome plus verification result.
@@ -192,6 +202,7 @@ all locators and actions for the whole product.
 
    ```ts file=tests/todo/basic-flow/add-valid-todo.spec.ts
    // spec: specs/plan.md
+   // plan-id: TODO-BASIC-FLOW-001
    // seed: tests/seed.spec.ts
 
    import { test } from './fixtures/todo.fixtures';

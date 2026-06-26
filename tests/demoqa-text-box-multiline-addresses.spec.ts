@@ -1,3 +1,5 @@
+// spec: specs/demoqa-text-box.md
+// plan-id: DEMOQA-TEXT-BOX-003
 import { test } from '@playwright/test';
 import { DemoqaTextBoxPage, type TextBoxFormData } from './demoqa-text-box.page';
 

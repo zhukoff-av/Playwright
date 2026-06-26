@@ -1,3 +1,8 @@
+// spec: specs/todo-basic-flow.md
+// plan-id: TODO-BASIC-FLOW-001
+// plan-id: TODO-BASIC-FLOW-002
+// plan-id: TODO-BASIC-FLOW-003
+// plan-id: TODO-BASIC-FLOW-004
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
 const TODO_APP_URL = 'https://demo.playwright.dev/todomvc/#/';

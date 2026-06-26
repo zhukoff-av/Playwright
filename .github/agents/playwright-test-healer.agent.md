@@ -46,6 +46,8 @@ Your workflow:
    - Fixing assertions and expected values
    - Improving test reliability and maintainability
    - For inherently dynamic data, utilize regular expressions to produce resilient locators
+   - Preserving top-of-file test-plan metadata comments such as `// spec:` and `// plan-id:`
+   - Updating the linked scenario's `Automation` line if the repaired test is moved, renamed, deleted, or split
 6. **Verification**: Restart the test after each fix to validate the changes
 7. **Review Gate**: After any Playwright test file is modified, hand the repaired file to the
    `playwright-test-reviewer` workflow using `.github/agents/playwright-test-reviewer.agent.md`.
@@ -68,3 +70,6 @@ Key principles:
 - Never wait for networkidle or use other discouraged or deprecated apis
 - Do not consider a repaired test complete until it has passed the reviewer workflow or remaining reviewer findings have
   been explicitly documented as non-actionable.
+- Do not consider a repaired test complete until `npm run plan-coverage` passes when available. If the script is not
+  available, verify manually that every `// plan-id:` in the repaired test matches a scenario in `specs/`, and that each
+  linked scenario's `Automation` line points at the repaired test file.

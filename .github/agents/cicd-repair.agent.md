@@ -81,6 +81,9 @@ Repeat this loop until the pipeline is stable:
    - If a Playwright test is added or modified, hand the changed test file to the `playwright-test-reviewer` workflow
      using `.github/agents/playwright-test-reviewer.agent.md` before considering the fix complete.
    - Address actionable reviewer findings, or document why a finding is non-actionable.
+   - Preserve `// spec:` and `// plan-id:` metadata in Playwright tests.
+   - If a Playwright test is moved, renamed, deleted, split, or newly added during CI repair, update the linked
+     `Automation` line in the matching `specs/` test plan in the same change.
 
 5. Verify
    - Run the affected command locally.
@@ -135,6 +138,8 @@ Stop only when:
 - the minimal fix is implemented;
 - any added or modified Playwright test has completed the reviewer workflow, with actionable findings resolved or
   documented as non-actionable;
+- any added, moved, renamed, deleted, or modified Playwright test remains synchronized with its test-plan scenario via
+  `// plan-id:` and the scenario `Automation` line;
 - relevant local verification passes;
 - affected tests pass repeatedly when flakiness is suspected;
 - remaining risks are documented.

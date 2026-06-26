@@ -14,6 +14,26 @@ When running inside VSCode with the Codex/OpenAI agent plugin:
 - Save generated Playwright tests under `tests/`.
 - Use `tests/seed.spec.ts` as the default seed file unless the user specifies another seed.
 
+Test plan synchronization:
+
+- Every test-plan scenario must have a stable `Plan ID` in the markdown plan before automation is generated.
+- Use readable IDs that include the product or feature prefix and a three-digit number, for example
+  `DEMOQA-TEXT-BOX-002` or `ALLOY-PORTAL-AUTH-001`.
+- Every scenario must include an `Automation` line:
+  - `**Automation:** Not automated`
+  - `**Automation:** Automated in `tests/path/to/scenario.spec.ts``
+- Every generated Playwright spec must include metadata comments at the top of the file:
+  - `// spec: specs/path-to-plan.md`
+  - `// plan-id: PLAN-ID`
+- One generated spec should map to exactly one planned scenario unless the user explicitly asks for a combined test or
+  an existing combined legacy spec is being maintained. Combined specs must include one `// plan-id:` line per covered
+  scenario.
+- When creating, moving, renaming, repairing, or deleting a Playwright test, update the corresponding `Automation` line in
+  the test plan in the same change.
+- Before reporting work complete, run `npm run plan-coverage` or otherwise compare plan IDs in `specs/` with
+  `// plan-id:` comments in `tests/` and report:
+  automated scenarios, non-automated scenarios, and tests that reference a missing plan ID.
+
 Preferred workflow:
 
 1. Plan coverage with the planner agent instructions and `playwright-test` MCP tools.

@@ -19,6 +19,9 @@ Validate the DemoQA Text Box page at `https://demoqa.com/text-box`, including in
 
 ### 1. Verify Text Box Page Renders the Expected Form
 
+**Plan ID:** `DEMOQA-TEXT-BOX-001`
+**Automation:** Automated in `tests/demoqa-text-box.spec.ts`
+
 1. Open `https://demoqa.com/text-box`.
 2. Validate that the page has a visible heading `Text Box`.
 3. Validate that the Full Name, Email, Current Address, and Permanent Address fields are visible and editable.
@@ -27,6 +30,9 @@ Validate the DemoQA Text Box page at `https://demoqa.com/text-box`, including in
 Expected result: the page loads successfully with the expected heading, editable text fields, and usable Submit button.
 
 ### 2. Submit Valid Contact Details
+
+**Plan ID:** `DEMOQA-TEXT-BOX-002`
+**Automation:** Automated in `tests/demoqa-text-box-submit-valid-details.spec.ts`
 
 1. Open `https://demoqa.com/text-box`.
 2. Enter a full name, valid email, current address, and permanent address.
@@ -37,6 +43,9 @@ Expected result: the page loads successfully with the expected heading, editable
 Expected result: all submitted values are rendered in the output panel with the correct labels.
 
 ### 3. Submit Multiline Addresses
+
+**Plan ID:** `DEMOQA-TEXT-BOX-003`
+**Automation:** Automated in `tests/demoqa-text-box-multiline-addresses.spec.ts`
 
 1. Open `https://demoqa.com/text-box`.
 2. Enter a full name and valid email.
@@ -49,6 +58,9 @@ Expected result: multiline address content is accepted and displayed without los
 
 ### 4. Reject Invalid Email Format
 
+**Plan ID:** `DEMOQA-TEXT-BOX-004`
+**Automation:** Automated in `tests/demoqa-text-box-invalid-email.spec.ts`
+
 1. Open `https://demoqa.com/text-box`.
 2. Enter a full name.
 3. Enter an invalid email address without a valid domain.
@@ -60,6 +72,9 @@ Expected result: multiline address content is accepted and displayed without los
 Expected result: invalid email input prevents successful submission and the output panel is not displayed.
 
 ### 5. Update Submitted Values on a Later Submission
+
+**Plan ID:** `DEMOQA-TEXT-BOX-005`
+**Automation:** Automated in `tests/demoqa-text-box-update-submitted-values.spec.ts`
 
 1. Open `https://demoqa.com/text-box`.
 2. Submit one complete set of valid contact details.

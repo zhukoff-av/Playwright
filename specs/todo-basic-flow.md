@@ -16,6 +16,9 @@ Validate the core TodoMVC user flow on `https://demo.playwright.dev/todomvc/#/`.
 
 ### 1. Add a Todo
 
+**Plan ID:** `TODO-BASIC-FLOW-001`
+**Automation:** Automated in `tests/todo-basic-flow.spec.ts`
+
 1. Open the Todo app.
 2. Type a todo title into the new todo input.
 3. Press Enter.
@@ -23,6 +26,9 @@ Validate the core TodoMVC user flow on `https://demo.playwright.dev/todomvc/#/`.
 Expected result: the todo appears in the list and the active item counter shows one item left.
 
 ### 2. Mark a Todo as Completed
+
+**Plan ID:** `TODO-BASIC-FLOW-002`
+**Automation:** Automated in `tests/todo-basic-flow.spec.ts`
 
 1. Open the Todo app.
 2. Add a todo.
@@ -32,6 +38,9 @@ Expected result: the todo checkbox is checked, the item is marked completed, and
 
 ### 3. Delete a Todo
 
+**Plan ID:** `TODO-BASIC-FLOW-003`
+**Automation:** Automated in `tests/todo-basic-flow.spec.ts`
+
 1. Open the Todo app.
 2. Add a todo.
 3. Delete the todo.
@@ -39,6 +48,9 @@ Expected result: the todo checkbox is checked, the item is marked completed, and
 Expected result: the todo is removed from the list and the main todo section is hidden because no todos remain.
 
 ### 4. Reject an Empty Todo
+
+**Plan ID:** `TODO-BASIC-FLOW-004`
+**Automation:** Automated in `tests/todo-basic-flow.spec.ts`
 
 1. Open the Todo app.
 2. Submit an empty todo value.
