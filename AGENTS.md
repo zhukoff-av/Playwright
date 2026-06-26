@@ -22,12 +22,20 @@ Preferred workflow:
 4. Run and repair tests with the healer agent instructions until they pass or a real product defect is identified.
 5. Review every repaired test with the reviewer agent instructions before considering it complete.
 6. Address actionable reviewer findings, then rerun the affected tests.
+7. Commit and push the completed changes automatically before closing or reporting the linked GitHub issue as complete.
 
 Review gate:
 
 - Any newly added Playwright test must be reviewed with `.github/agents/playwright-test-reviewer.agent.md`.
 - Any Playwright test modified by the healer or CI/CD repair workflow must be reviewed with `.github/agents/playwright-test-reviewer.agent.md`.
 - Do not treat a generated or repaired test as complete until reviewer findings are resolved or explicitly documented as non-actionable.
+
+Publish gate:
+
+- After generated or repaired tests pass the review gate and affected tests have been rerun, stage the relevant changes, create a git commit, and push the current branch automatically.
+- Do not close a linked GitHub issue, mark it complete, or report it as done until the commit has been pushed successfully.
+- If there is no upstream branch, push with upstream tracking for the current branch.
+- If git commit or push fails, report the failure and leave the GitHub issue open.
 
 CI/CD repair workflow:
 
@@ -36,6 +44,7 @@ CI/CD repair workflow:
 3. Apply the minimal correct fix without disabling tests or skipping failing steps.
 4. If the fix adds or modifies Playwright tests, review those tests with the reviewer agent instructions.
 5. Run the same CI commands locally and repeat affected tests when flakiness is suspected.
-6. Report root cause, fix, reviewer outcome, verification, remaining risks, and follow-up improvements.
+6. Commit and push the completed fix automatically before closing or reporting the linked GitHub issue as complete.
+7. Report root cause, fix, reviewer outcome, verification, commit/push status, remaining risks, and follow-up improvements.
 
 Do not treat `.github/agents/*.agent.md` as GitHub-only files. They are the source prompts for Codex workflows in this repo.
