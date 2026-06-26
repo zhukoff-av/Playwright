@@ -1,0 +1,71 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.2.0
+2 info using node@v22.14.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/antonzhukov/Playwright/.npmrc
+5 silly config load:file:/Users/antonzhukov/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm i
+8 verbose argv "i"
+9 verbose logfile logs-max:10 dir:/Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_22_47_510Z-
+10 verbose logfile /Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_22_47_510Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly reify moves {}
+15 silly audit bulk request {
+15 silly audit   '@playwright/test': [ '1.60.0' ],
+15 silly audit   '@types/node': [ '22.19.19' ],
+15 silly audit   fsevents: [ '2.3.2' ],
+15 silly audit   playwright: [ '1.60.0' ],
+15 silly audit   'playwright-core': [ '1.60.0' ],
+15 silly audit   'undici-types': [ '6.21.0' ]
+15 silly audit }
+16 http cache fsevents@https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz 0ms (cache hit)
+17 silly tarball no local data for fsevents@https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz. Extracting by manifest.
+18 http fetch GET 200 https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz 306ms (cache miss)
+19 verbose stack Error: EACCES: permission denied, open '/Users/antonzhukov/Playwright/package-lock.json'
+19 verbose stack     at async open (node:internal/fs/promises:638:25)
+19 verbose stack     at async writeFile (node:internal/fs/promises:1212:14)
+19 verbose stack     at async Promise.all (index 0)
+19 verbose stack     at async [saveIdealTree] (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:1526:7)
+19 verbose stack     at async Arborist.reify (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:148:5)
+19 verbose stack     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:149:5)
+19 verbose stack     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:208:9)
+19 verbose stack     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:67:5)
+20 error code EACCES
+21 error syscall open
+22 error path /Users/antonzhukov/Playwright/package-lock.json
+23 error errno -13
+24 error Error: EACCES: permission denied, open '/Users/antonzhukov/Playwright/package-lock.json'
+24 error     at async open (node:internal/fs/promises:638:25)
+24 error     at async writeFile (node:internal/fs/promises:1212:14)
+24 error     at async Promise.all (index 0)
+24 error     at async [saveIdealTree] (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:1526:7)
+24 error     at async Arborist.reify (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:148:5)
+24 error     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:149:5)
+24 error     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:208:9)
+24 error     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:67:5) {
+24 error   errno: -13,
+24 error   code: 'EACCES',
+24 error   syscall: 'open',
+24 error   path: '/Users/antonzhukov/Playwright/package-lock.json'
+24 error }
+25 error
+25 error The operation was rejected by your operating system.
+25 error It is likely you do not have the permissions to access this file as the current user
+25 error
+25 error If you believe this might be a permissions issue, please double-check the
+25 error permissions of the file and its containing directories, or try running
+25 error the command again as root/Administrator.
+26 silly unfinished npm timer reify 1779556967703
+27 silly unfinished npm timer reify:audit 1779556967714
+28 silly unfinished npm timer auditReport:getReport 1779556967714
+29 silly unfinished npm timer reify:save 1779556968042
+30 verbose cwd /Users/antonzhukov/Playwright
+31 verbose os Darwin 24.3.0
+32 verbose node v22.14.0
+33 verbose npm  v11.2.0
+34 verbose exit -13
+35 verbose code -13
+36 error A complete log of this run can be found in: /Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_22_47_510Z-debug-0.log

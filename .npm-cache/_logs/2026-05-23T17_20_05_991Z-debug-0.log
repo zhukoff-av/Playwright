@@ -1,0 +1,87 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.2.0
+2 info using node@v22.14.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/antonzhukov/Playwright/.npmrc
+5 silly config load:file:/Users/antonzhukov/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm i
+8 verbose argv "i"
+9 verbose logfile logs-max:10 dir:/Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_20_05_991Z-
+10 verbose logfile /Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_20_05_991Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with ENOTFOUND
+14 silly idealTree buildDeps
+15 silly fetch manifest fsevents@2.3.2
+16 silly packumentCache full:https://registry.npmjs.org/fsevents cache-miss
+17 http fetch GET https://registry.npmjs.org/fsevents attempt 1 failed with ENOTFOUND
+18 http fetch GET https://registry.npmjs.org/npm attempt 2 failed with ENOTFOUND
+19 http fetch GET https://registry.npmjs.org/fsevents attempt 2 failed with ENOTFOUND
+20 http fetch GET https://registry.npmjs.org/npm attempt 3 failed with ENOTFOUND
+21 http fetch GET https://registry.npmjs.org/fsevents attempt 3 failed with ENOTFOUND
+22 silly placeDep node_modules/.pnpm/playwright@1.60.0/node_modules/playwright fsevents@ OK for: playwright@1.60.0 want: 2.3.2
+23 silly reify moves {}
+24 silly audit bulk request {
+24 silly audit   '@types/node': [ '22.19.19' ],
+24 silly audit   '@playwright/test': [ '1.60.0' ],
+24 silly audit   'undici-types': [ '6.21.0' ],
+24 silly audit   playwright: [ '1.60.0' ],
+24 silly audit   'playwright-core': [ '1.60.0' ]
+24 silly audit }
+25 verbose audit error FetchError: request to https://registry.npmjs.org/-/npm/v1/security/advisories/bulk failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+25 verbose audit error     at ClientRequest.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/minipass-fetch/lib/index.js:130:14)
+25 verbose audit error     at ClientRequest.emit (node:events:518:28)
+25 verbose audit error     at emitErrorEvent (node:_http_client:104:11)
+25 verbose audit error     at _destroy (node:_http_client:898:9)
+25 verbose audit error     at onSocketNT (node:_http_client:918:5)
+25 verbose audit error     at process.processTicksAndRejections (node:internal/process/task_queues:91:21) {
+25 verbose audit error   code: 'ENOTFOUND',
+25 verbose audit error   errno: 'ENOTFOUND',
+25 verbose audit error   syscall: 'getaddrinfo',
+25 verbose audit error   hostname: 'registry.npmjs.org',
+25 verbose audit error   type: 'system'
+25 verbose audit error }
+26 silly audit error undefined
+27 silly audit report null
+28 silly packumentCache corgi:https://registry.npmjs.org/@playwright%2ftest cache-miss
+29 http fetch GET https://registry.npmjs.org/@playwright%2ftest attempt 1 failed with ENOTFOUND
+30 silly packumentCache corgi:https://registry.npmjs.org/@types%2fnode cache-miss
+31 http fetch GET https://registry.npmjs.org/@types%2fnode attempt 1 failed with ENOTFOUND
+32 silly packumentCache corgi:https://registry.npmjs.org/playwright cache-miss
+33 http fetch GET https://registry.npmjs.org/playwright attempt 1 failed with ENOTFOUND
+34 http fetch GET https://registry.npmjs.org/@playwright%2ftest attempt 2 failed with ENOTFOUND
+35 http fetch GET https://registry.npmjs.org/@types%2fnode attempt 2 failed with ENOTFOUND
+36 http fetch GET https://registry.npmjs.org/playwright attempt 2 failed with ENOTFOUND
+37 http fetch GET https://registry.npmjs.org/@playwright%2ftest attempt 3 failed with ENOTFOUND
+38 http fetch GET https://registry.npmjs.org/@types%2fnode attempt 3 failed with ENOTFOUND
+39 http fetch GET https://registry.npmjs.org/playwright attempt 3 failed with ENOTFOUND
+40 verbose type system
+41 verbose stack FetchError: request to https://registry.npmjs.org/playwright failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+41 verbose stack     at ClientRequest.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/minipass-fetch/lib/index.js:130:14)
+41 verbose stack     at ClientRequest.emit (node:events:518:28)
+41 verbose stack     at emitErrorEvent (node:_http_client:104:11)
+41 verbose stack     at _destroy (node:_http_client:898:9)
+41 verbose stack     at onSocketNT (node:_http_client:918:5)
+41 verbose stack     at process.processTicksAndRejections (node:internal/process/task_queues:91:21)
+42 error code ENOTFOUND
+43 error syscall getaddrinfo
+44 error errno ENOTFOUND
+45 error network request to https://registry.npmjs.org/playwright failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
+46 error network This is a problem related to network connectivity.
+46 error network In most cases you are behind a proxy or have bad network settings.
+46 error network
+46 error network If you are behind a proxy, please make sure that the
+46 error network 'proxy' config is set properly.  See: 'npm help config'
+47 silly unfinished npm timer reify 1779556806238
+48 silly unfinished npm timer reify:unpack 1779556876272
+49 silly unfinished npm timer reifyNode:node_modules/.pnpm/playwright@1.60.0/node_modules/playwright 1779556876272
+50 silly unfinished npm timer reifyNode:node_modules/.pnpm/@playwright+test@1.60.0/node_modules/@playwright/test 1779556876272
+51 silly unfinished npm timer reifyNode:node_modules/.pnpm/@types+node@22.19.19/node_modules/@types/node 1779556876272
+52 verbose cwd /Users/antonzhukov/Playwright
+53 verbose os Darwin 24.3.0
+54 verbose node v22.14.0
+55 verbose npm  v11.2.0
+56 verbose exit 1
+57 verbose code 1
+58 error A complete log of this run can be found in: /Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_20_05_991Z-debug-0.log

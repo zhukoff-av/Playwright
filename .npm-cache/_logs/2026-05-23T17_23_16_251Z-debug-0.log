@@ -1,0 +1,39 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.2.0
+2 info using node@v22.14.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/antonzhukov/Playwright/.npmrc
+5 silly config load:file:/Users/antonzhukov/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm ci
+8 verbose argv "ci"
+9 verbose logfile logs-max:10 dir:/Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_23_16_251Z-
+10 verbose logfile /Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_23_16_251Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 verbose stack Error: EACCES: permission denied, unlink '/Users/antonzhukov/Playwright/node_modules/playwright-core/LICENSE'
+15 error code EACCES
+16 error syscall unlink
+17 error path /Users/antonzhukov/Playwright/node_modules/playwright-core/LICENSE
+18 error errno -13
+19 error [Error: EACCES: permission denied, unlink '/Users/antonzhukov/Playwright/node_modules/playwright-core/LICENSE'] {
+19 error   errno: -13,
+19 error   code: 'EACCES',
+19 error   syscall: 'unlink',
+19 error   path: '/Users/antonzhukov/Playwright/node_modules/playwright-core/LICENSE'
+19 error }
+20 error
+20 error The operation was rejected by your operating system.
+20 error It is likely you do not have the permissions to access this file as the current user
+20 error
+20 error If you believe this might be a permissions issue, please double-check the
+20 error permissions of the file and its containing directories, or try running
+20 error the command again as root/Administrator.
+21 verbose cwd /Users/antonzhukov/Playwright
+22 verbose os Darwin 24.3.0
+23 verbose node v22.14.0
+24 verbose npm  v11.2.0
+25 verbose exit -13
+26 verbose code -13
+27 error A complete log of this run can be found in: /Users/antonzhukov/Playwright/.npm-cache/_logs/2026-05-23T17_23_16_251Z-debug-0.log
