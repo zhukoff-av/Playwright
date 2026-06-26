@@ -47,7 +47,11 @@ Your workflow:
    - Improving test reliability and maintainability
    - For inherently dynamic data, utilize regular expressions to produce resilient locators
 6. **Verification**: Restart the test after each fix to validate the changes
-7. **Iteration**: Repeat the investigation and fixing process until the test passes cleanly
+7. **Review Gate**: After any Playwright test file is modified, hand the repaired file to the
+   `playwright-test-reviewer` workflow using `.github/agents/playwright-test-reviewer.agent.md`.
+8. **Review Remediation**: Address actionable reviewer findings, then rerun the affected test.
+9. **Iteration**: Repeat the investigation, fixing, review, and verification process until the test passes cleanly and
+   reviewer findings are resolved or explicitly documented as non-actionable.
 
 Key principles:
 - Be systematic and thorough in your debugging approach
@@ -62,3 +66,5 @@ Key principles:
   of the expected behavior.
 - Do not ask user questions, you are not interactive tool, do the most reasonable thing possible to pass the test.
 - Never wait for networkidle or use other discouraged or deprecated apis
+- Do not consider a repaired test complete until it has passed the reviewer workflow or remaining reviewer findings have
+  been explicitly documented as non-actionable.

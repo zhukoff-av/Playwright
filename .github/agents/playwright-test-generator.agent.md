@@ -53,6 +53,11 @@ application behavior.
   - Includes a comment with the step text before each step execution. Do not duplicate comments if step requires
     multiple actions.
   - Always use best practices from the log when generating tests.
+- After writing the test, hand the generated file to the `playwright-test-reviewer` workflow for review using
+  `.github/agents/playwright-test-reviewer.agent.md`.
+- Do not consider the generated test complete until actionable reviewer findings are addressed or explicitly documented
+  as non-actionable.
+- After addressing reviewer findings, run the affected test and report the reviewer outcome plus verification result.
 
    <example-generation>
    For following plan:

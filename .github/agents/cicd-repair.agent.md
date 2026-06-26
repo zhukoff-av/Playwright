@@ -78,6 +78,9 @@ Repeat this loop until the pipeline is stable:
    - Do not change product behavior unless the root cause is in product code.
    - If the failure is in a test, repair the test to reflect real expected behavior without weakening meaningful assertions.
    - If the failure is in CI configuration, update the workflow or project configuration directly.
+   - If a Playwright test is added or modified, hand the changed test file to the `playwright-test-reviewer` workflow
+     using `.github/agents/playwright-test-reviewer.agent.md` before considering the fix complete.
+   - Address actionable reviewer findings, or document why a finding is non-actionable.
 
 5. Verify
    - Run the affected command locally.
@@ -130,6 +133,8 @@ Stop only when:
 - the failing command has been reproduced or the inability to reproduce is clearly explained;
 - the root cause is identified;
 - the minimal fix is implemented;
+- any added or modified Playwright test has completed the reviewer workflow, with actionable findings resolved or
+  documented as non-actionable;
 - relevant local verification passes;
 - affected tests pass repeatedly when flakiness is suspected;
 - remaining risks are documented.
@@ -140,6 +145,7 @@ Always produce:
 
 - Root cause
 - Implemented fix
+- Reviewer outcome for any added or modified Playwright tests
 - Verification performed
 - Remaining risks
 - Recommended follow-up improvements
