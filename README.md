@@ -80,7 +80,8 @@ Runs tests specifically in Chromium with a visible browser window.
 
 Use the `codex:issue` script to have a local Codex agent implement a GitHub issue.
 The script fetches the issue with the GitHub CLI, starts Codex in this repository, and
-passes the issue body and comments to the agent.
+passes the issue body and comments to the agent. After the agent finishes, the script
+validates the changes, commits them, and closes the issue.
 
 For example, to run Codex against issue `#7`:
 
@@ -91,6 +92,17 @@ Requirements:
 - Install and authenticate the GitHub CLI: `gh auth login`.
 - Make sure the Codex CLI is available on your `PATH`, or set `CODEX_BIN=/path/to/codex`.
 - Run the command from this repository so the script can detect the GitHub repo.
+- Start from a clean working tree. The script exits before running the agent if local
+  changes are already present.
+
+Successful run lifecycle:
+
+1. Fetches the GitHub issue.
+2. Runs the Codex agent against the issue content.
+3. Requires the agent to produce repository changes.
+4. Runs `pnpm exec playwright test`.
+5. Commits validated changes with an issue-specific commit message.
+6. Closes the GitHub issue unless `CODEX_ISSUE_AUTO_CLOSE=false`.
 
 Optional settings:
 
@@ -101,6 +113,8 @@ Optional settings:
 - Leave the issue open after a successful agent run:
 
       CODEX_ISSUE_AUTO_CLOSE=false pnpm run codex:issue -- 7
+
+  The script still validates and commits the changes before leaving the issue open.
 
 ### Usage
 
