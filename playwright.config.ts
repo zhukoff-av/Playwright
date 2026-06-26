@@ -13,6 +13,7 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests",
+  testIgnore: ["**/archive/**"],
   timeout: 60_000,
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -63,7 +64,7 @@ export default defineConfig({
     {
       name: "chromium-swag",
       testMatch: "**/**/**/*.spec.ts",
-      testIgnore: ["alloy/**"],
+      testIgnore: ["alloy/**", "archive/**"],
       // dependencies: ["setup-swag"],
       use: {
         ...devices["Desktop Chrome"],
