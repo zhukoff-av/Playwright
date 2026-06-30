@@ -1,78 +1,137 @@
 # Agent Instructions
 
-This repository uses Playwright Test Agents through the `playwright-test` MCP server.
+This repository uses specialized QA automation agents for Playwright TypeScript work. The canonical agent prompts live in
+`.github/agents/`. Cross-tool files for Codex, Claude Code, Cursor, and GitHub Copilot should route back to those prompts
+instead of copying their full contents.
 
-When running inside VSCode with the Codex/OpenAI agent plugin:
+## Repository Snapshot
 
-- Use the MCP server configured in `.vscode/mcp.json`.
-- Use `.github/agents/playwright-test-planner.agent.md` as the planner workflow.
-- Use `.github/agents/playwright-test-generator.agent.md` as the generator workflow.
-- Use `.github/agents/playwright-test-healer.agent.md` as the healer workflow.
-- Use `.github/agents/playwright-test-reviewer.agent.md` as the Playwright test review workflow.
-- Use `.github/agents/cicd-repair.agent.md` as the CI/CD repair workflow.
-- Save human-readable test plans under `specs/`.
-- Save generated Playwright tests under `tests/`.
-- Use `tests/seed.spec.ts` as the default seed file unless the user specifies another seed.
+- Playwright config: `playwright.config.ts`
+- Test plans: `specs/`
+- Automated tests: `tests/`
+- Default seed test: `tests/seed.spec.ts`
+- Agent prompts: `.github/agents/`
+- Reusable task prompts: `.github/prompts/`
+- Playwright MCP server: `.vscode/mcp.json`
+- Plan/test coverage check: `npm run plan-coverage`
 
-Test plan synchronization:
+## Master Agent Router
 
-- Every test-plan scenario must have a stable `Plan ID` in the markdown plan before automation is generated.
-- Use readable IDs that include the product or feature prefix and a three-digit number, for example
-  `DEMOQA-TEXT-BOX-002` or `ALLOY-PORTAL-AUTH-001`.
-- Every scenario must include an `Automation` line:
+Use the smallest specialized agent that matches the work:
+
+| Task | Use agent |
+| --- | --- |
+| Create or update a human-readable test plan | `.github/agents/playwright-test-planner.agent.md` |
+| Generate a Playwright test from an approved plan | `.github/agents/playwright-test-generator.agent.md` |
+| Run, debug, classify, and fix a failing Playwright test | `.github/agents/playwright-test-healer.agent.md` |
+| Implement fixtures, helpers, page objects, API clients, config, or reporting improvements | `.github/agents/framework-engineer.agent.md` |
+| Investigate or repair GitHub Actions failures | `.github/agents/cicd-repair.agent.md` |
+| Improve CI speed, artifacts, caching, sharding, or reproducibility | `.github/agents/cicd-repair.agent.md` |
+| Reduce flaky behavior or fragile synchronization | `.github/agents/stability-flakiness.agent.md` |
+| Measure and improve suite or test runtime | `.github/agents/performance-agent.agent.md` |
+| Review Playwright tests or framework architecture | `.github/agents/playwright-test-reviewer.agent.md` |
+| Confirm changes are ready to report or publish | `.github/agents/verification-agent.agent.md` |
+
+Default loop for every agent:
+
+1. Understand the task and select the correct agent.
+2. Inspect relevant code, plans, config, workflows, and docs before editing.
+3. Make a small implementation plan.
+4. Apply the minimal safe change.
+5. Run the smallest relevant verification first.
+6. Run broader checks for framework-level or CI-level changes.
+7. Report commands, results, failures, and remaining risks.
+8. Recommend the next step only after evidence is collected.
+
+## Capability Matrix
+
+| Capability | Existing support | Missing or weak area | Recommended agent |
+| --- | --- | --- | --- |
+| Test planning | Yes | Risk mapping and API/UI/e2e coverage must be explicit | `playwright-test-planner` |
+| Test writing | Yes | Must enforce plan sync, one scenario per spec, stable locators, and fixture patterns | `playwright-test-generator` |
+| Test debugging | Partial | Must classify root cause before fixing | `playwright-test-healer` |
+| Framework feature implementation | No | Needs fixture/helper/config/reporting ownership | `framework-engineer` |
+| CI improvement | Partial | Repair exists; proactive optimization must be evidence-based | `cicd-repair` |
+| Performance optimization | No | Needs measurement-first runtime workflow | `performance-agent` |
+| Flakiness reduction | Partial | Needs pattern search and deterministic replacement workflow | `stability-flakiness` |
+| Test review | Yes | Must separate critical defects from improvements | `playwright-test-reviewer` |
+| Framework review | Partial | Must review boundaries, duplication, and scalability | `playwright-test-reviewer` |
+| Verification | Partial | Needs final evidence gate | `verification-agent` |
+
+## Test Plan Synchronization
+
+- Every test-plan scenario must have a stable `Plan ID` before automation is generated.
+- Use readable IDs with a product or feature prefix and a three-digit number, such as `DEMOQA-TEXT-BOX-002`.
+- Every scenario must include one automation line:
   - `**Automation:** Not automated`
   - `**Automation:** Automated in `tests/path/to/scenario.spec.ts``
-- Every generated Playwright spec must include metadata comments at the top of the file:
+- Every generated Playwright spec must include metadata comments at the top:
   - `// spec: specs/path-to-plan.md`
   - `// plan-id: PLAN-ID`
-- One generated spec should map to exactly one planned scenario unless the user explicitly asks for a combined test or
-  an existing combined legacy spec is being maintained. Combined specs must include one `// plan-id:` line per covered
-  scenario.
+- One generated spec should map to exactly one planned scenario unless the user explicitly asks for a combined test or an
+  existing combined legacy spec is being maintained.
 - When creating, moving, renaming, repairing, or deleting a Playwright test, update the corresponding `Automation` line in
-  the test plan in the same change.
-- Before reporting work complete, run `npm run plan-coverage` or otherwise compare plan IDs in `specs/` with
-  `// plan-id:` comments in `tests/` and report:
-  automated scenarios, non-automated scenarios, and tests that reference a missing plan ID.
+  the same change.
+- Before reporting completion, run `npm run plan-coverage` or manually compare plan IDs in `specs/` with `// plan-id:`
+  comments in `tests/`.
 
-Preferred workflow:
+## Verification Rules
 
-1. Plan coverage with the planner agent instructions and `playwright-test` MCP tools.
-2. Generate one Playwright spec per planned scenario with the generator agent instructions.
-3. Review every generated test with the reviewer agent instructions before considering it complete.
-4. Run and repair tests with the healer agent instructions until they pass or a real product defect is identified.
-5. Review every repaired test with the reviewer agent instructions before considering it complete.
-6. Address actionable reviewer findings, then rerun the affected tests.
-7. Commit and push the completed changes automatically before closing or reporting the linked GitHub issue as complete.
-8. Check GitHub Actions for the pushed commit or PR; if CI fails, invoke the CI/CD repair workflow before closing or reporting the linked GitHub issue as complete.
+Every agent must follow these rules:
 
-Review gate:
+- Do not claim success without running verification or explaining why verification could not run.
+- Prefer the smallest relevant test scope first.
+- Run broader validation for framework-level, CI-level, or shared fixture/helper changes.
+- Always report commands run and results.
+- Classify failures clearly.
+- Do not hide failing tests.
+- Do not delete tests to make the suite green.
+- Do not weaken assertions without explaining the behavior contract.
+- Do not replace real validation with snapshots unless justified.
+- Do not add arbitrary waits unless absolutely necessary and documented.
+- Do not use `networkidle` as a default synchronization strategy.
+
+Recommended validation commands:
+
+```sh
+npm run plan-coverage
+pnpm exec playwright test --list --project chromium-ci
+pnpm exec playwright test tests/seed.spec.ts tests/test.spec.ts --project chromium-ci
+```
+
+There are currently no repository scripts for lint or TypeScript type-checking. Agents must not claim lint/typecheck
+coverage unless those commands are added and run.
+
+## Review Gate
 
 - Any newly added Playwright test must be reviewed with `.github/agents/playwright-test-reviewer.agent.md`.
-- Any Playwright test modified by the healer or CI/CD repair workflow must be reviewed with `.github/agents/playwright-test-reviewer.agent.md`.
-- Do not treat a generated or repaired test as complete until reviewer findings are resolved or explicitly documented as non-actionable.
+- Any Playwright test modified by the healer, stability, framework, performance, or CI/CD workflow must be reviewed.
+- Do not treat a generated or repaired test as complete until reviewer findings are resolved or documented as
+  non-actionable.
 
-Publish gate:
+## Publish Gate
 
-- After generated or repaired tests pass the review gate and affected tests have been rerun, stage the relevant changes, create a git commit, and push the current branch automatically.
-- Do not close a linked GitHub issue, mark it complete, or report it as done until the commit has been pushed successfully.
+- After generated or repaired tests pass review and affected tests are rerun, stage relevant changes, create a commit, and
+  push the current branch automatically when the user asks for issue/PR completion.
 - If there is no upstream branch, push with upstream tracking for the current branch.
-- If git commit or push fails, report the failure and leave the GitHub issue open.
+- If commit or push fails, report the failure and leave the linked GitHub issue open.
 
-CI status gate:
+## CI Status Gate
 
-- After each automatic push, check the GitHub Actions runs or PR checks associated with the pushed commit.
-- If any required CI check fails, invoke `.github/agents/cicd-repair.agent.md` immediately and follow the CI/CD repair workflow.
-- Do not close a linked GitHub issue, mark it complete, or report it as done until required CI checks pass, or until a real product defect or external CI infrastructure failure is identified and documented.
-- Prefer checking CI immediately after each push. Use scheduled CI monitoring only as an explicit follow-up automation when requested, not as the primary repair trigger.
+- After each automatic push, check GitHub Actions runs or PR checks for the pushed commit.
+- If required CI fails, invoke `.github/agents/cicd-repair.agent.md` immediately.
+- Do not close a linked issue or report it complete until required CI passes, or until a product defect or external CI
+  infrastructure failure is identified and documented.
 
-CI/CD repair workflow:
+## Repository Assessment for Agents
 
-1. Investigate failing GitHub Actions logs and identify the first actual failure.
-2. Reproduce the failing command locally, using a clean checkout when local state may hide CI-only issues.
-3. Apply the minimal correct fix without disabling tests or skipping failing steps.
-4. If the fix adds or modifies Playwright tests, review those tests with the reviewer agent instructions.
-5. Run the same CI commands locally and repeat affected tests when flakiness is suspected.
-6. Commit and push the completed fix automatically before closing or reporting the linked GitHub issue as complete.
-7. Report root cause, fix, reviewer outcome, verification, commit/push status, remaining risks, and follow-up improvements.
+- The current framework is small and sample-oriented, with mature plan metadata and CI reporting.
+- Newer tests use domain/feature folders and typed fixtures, while some legacy/root specs remain for historical coverage.
+- Archived Alloy tests are ignored by Playwright config but still linked from test plans for coverage accounting.
+- Test data is mostly inline; environment handling is minimal and should be improved only through the framework engineer.
+- CI runs a topic matrix and publishes JSON/HTML artifacts using `scripts/playwright-summary.js`.
+- Known risks include no lint/typecheck scripts, mixed test organization, archived flaky patterns, and no central config
+  validation.
 
-Do not treat `.github/agents/*.agent.md` as GitHub-only files. They are the source prompts for Codex workflows in this repo.
+Do not treat `.github/agents/*.agent.md` as GitHub-only files. They are source prompts for Codex, Claude Code, Cursor,
+GitHub Copilot Agent, and similar coding agents.

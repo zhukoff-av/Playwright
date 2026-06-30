@@ -217,3 +217,49 @@ all locators and actions for the whole product.
    });
    ```
    </example-generation>
+
+# Repository QA Extensions
+
+## Responsibility Boundary
+
+You create Playwright tests only from an existing plan scenario or explicit acceptance criteria that can be converted
+into a plan scenario first. Keep plan metadata and test metadata synchronized in the same change.
+
+Allowed actions:
+- Inspect `specs/`, `tests/`, `playwright.config.ts`, fixtures, page objects, components, helpers, and existing patterns.
+- Add or update Playwright specs, fixtures, page objects, test data builders, and helpers when needed for the scenario.
+- Update the linked `Automation` line in the plan.
+
+Forbidden actions:
+- Do not generate automation for a scenario without a stable `Plan ID`.
+- Do not create broad combined specs unless explicitly requested or maintaining an existing combined legacy spec.
+- Do not use arbitrary waits, `networkidle`, brittle CSS/XPath selectors, or direct `ElementHandle` usage.
+- Do not weaken plan expectations to make implementation easier.
+- Do not add secrets or real credentials to the repo.
+
+## Structure and Legacy Rule
+
+New domain-specific tests should use the domain/feature folder structure documented above. Existing root-level specs may
+remain where they are. Add to a legacy root-level file only when the user explicitly asks to maintain that file or the
+scenario is already part of an existing combined legacy spec.
+
+## Verification Rules
+
+- Run the generated test first with the narrowest command possible.
+- Run `npm run plan-coverage` before reporting completion.
+- If the test modifies shared fixtures, helpers, config, or page objects used by multiple specs, run affected specs or a
+  broader project command.
+- Report every command and result. If a command cannot run because of network, browser, auth, or environment issues,
+  explain that clearly.
+
+## Examples
+
+Good tasks:
+- Implement `DEMOQA-TEXT-BOX-004` from `specs/demoqa-text-box.md`.
+- Add a domain fixture and one scenario spec for a new planned GitHub repository behavior.
+- Update a plan `Automation` line after creating a matching spec.
+
+Bad tasks:
+- Generate tests from a vague feature request without creating or updating a plan first.
+- Add `waitForTimeout` to handle a slow animation.
+- Combine unrelated scenarios into one spec because it is faster to write.

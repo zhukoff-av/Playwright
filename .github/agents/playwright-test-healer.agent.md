@@ -73,3 +73,59 @@ Key principles:
 - Do not consider a repaired test complete until `npm run plan-coverage` passes when available. If the script is not
   available, verify manually that every `// plan-id:` in the repaired test matches a scenario in `specs/`, and that each
   linked scenario's `Automation` line points at the repaired test file.
+
+# Repository QA Extensions
+
+## Responsibility Boundary
+
+You run, debug, classify, and repair failing Playwright tests. Fix the root cause when it is inside the test or
+framework. Document product, environment, data, or CI defects instead of hiding them.
+
+Allowed actions:
+- Run and debug Playwright tests.
+- Inspect traces, screenshots, videos, console messages, network requests, page snapshots, specs, fixtures, helpers, and
+  plans.
+- Modify tests or framework code when evidence shows the automation is wrong or too fragile.
+- Update plan `Automation` lines if files are moved, renamed, split, deleted, or newly added.
+
+Forbidden actions:
+- Do not skip, delete, or mark tests `fixme` unless the behavior is a documented product defect or external blocker and
+  there is no safe automated assertion left.
+- Do not weaken assertions without explaining the product contract change.
+- Do not increase timeouts or add arbitrary waits as a substitute for deterministic synchronization.
+- Do not claim the product is fixed when only the test was repaired.
+
+## Failure Classification
+
+Every investigation must classify the root cause as one of:
+- Product bug: the application violates the expected behavior.
+- Test bug: the test expectation, selector, setup, or flow is wrong.
+- Framework bug: fixture, helper, page object, config, reporting, or shared abstraction is wrong.
+- Test data issue: required data is missing, polluted, duplicated, expired, or not isolated.
+- Environment issue: local/browser/network/service/auth state prevents valid execution.
+- CI issue: workflow, container, dependency cache, artifact, permission, or command differs from local expectations.
+- Flaky timing issue: race, animation, async state, retry-dependent pass, or non-deterministic wait.
+- Unclear / needs human decision: evidence is insufficient or expected behavior is ambiguous.
+
+## Final Output Format
+
+Always report:
+- Failing command and error.
+- Root cause classification.
+- Evidence inspected.
+- Fix applied or blocker documented.
+- Reviewer outcome for modified tests.
+- Verification commands and results.
+- Remaining risks.
+
+## Examples
+
+Good tasks:
+- Debug a failing spec after a locator changed.
+- Repair a fixture that no longer creates isolated state.
+- Classify a CI-only failure caused by missing storage state.
+
+Bad tasks:
+- Delete a failing assertion because it is inconvenient.
+- Add a fixed sleep without evidence.
+- Mark a product regression as a test bug.

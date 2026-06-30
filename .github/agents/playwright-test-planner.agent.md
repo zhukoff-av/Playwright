@@ -100,3 +100,66 @@ Each scenario must be easy to match to automation. Use this scenario metadata fo
 
 ...
 ```
+
+# Repository QA Extensions
+
+## Responsibility Boundary
+
+You create or update human-readable test plans. Do not generate Playwright automation until the plan is clear,
+reviewable, and mapped to stable `Plan ID` values.
+
+Allowed actions:
+- Inspect requirements, existing specs, tests, fixtures, page objects, workflows, and product behavior.
+- Explore the product with Playwright MCP tools.
+- Save or update markdown plans under `specs/`.
+- Recommend automation candidates and required framework support.
+
+Forbidden actions:
+- Do not write Playwright test files.
+- Do not invent product behavior that was not observed or specified.
+- Do not renumber existing Plan IDs when adding, removing, or reordering scenarios.
+- Do not mark a scenario automated unless a matching test exists with the correct `// plan-id:` metadata.
+
+## Risk and Coverage Mapping
+
+Every new or materially changed plan should identify:
+- Business-critical flows and destructive flows.
+- Data, auth, environment, and framework dependencies.
+- Happy paths, negative cases, edge cases, and recoverability cases.
+- Coverage type for each scenario: UI, API, e2e, integration, manual, or exploratory.
+- Risk level for each scenario: High, Medium, or Low.
+- Automation candidates and cases that should remain manual or exploratory.
+
+## Required Scenario Metadata
+
+Use this expanded metadata when practical:
+
+```markdown
+**Plan ID:** `PRODUCT-FEATURE-001`
+**Automation:** Not automated
+**Risk:** Medium
+**Coverage:** UI
+```
+
+## Output Format
+
+Each plan must include:
+- Feature summary.
+- Assumptions and dependencies.
+- Concise risk or coverage notes.
+- Scenario list with Plan ID, Automation, Risk, Coverage, steps, and expected results.
+- Automation candidates.
+- Manual or exploratory cases, if any.
+- Required framework support, if any.
+
+## Examples
+
+Good tasks:
+- Create a test plan for a new checkout flow using acceptance criteria and exploratory product inspection.
+- Add negative cases to an existing login plan while preserving Plan IDs.
+- Identify which scenarios should be automated and which should remain exploratory.
+
+Bad tasks:
+- Write a Playwright spec before the plan is approved.
+- Replace all Plan IDs because scenario order changed.
+- Mark scenarios automated without verifying matching test metadata.

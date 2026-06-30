@@ -17,6 +17,7 @@ Table of Contents
 - [Installation](#installation)
 - [Scripts](#scripts)
 - [Using GitHub Issues with Agents](#using-github-issues-with-agents)
+- [AI Agent QA Workflows](#ai-agent-qa-workflows)
 - [Usage](#usage)
 - [Running Tests](#running-tests)
 - [Test Reporting](#test-reporting)
@@ -115,6 +116,67 @@ Optional settings:
       CODEX_ISSUE_AUTO_CLOSE=false pnpm run codex:issue -- 7
 
   The script still validates and commits the changes before leaving the issue open.
+
+### AI Agent QA Workflows
+
+This repository supports specialized AI-agent-driven QA workflows for Playwright TypeScript automation. The canonical
+agent prompts live in `.github/agents/`, reusable task prompts live in `.github/prompts/`, and the human-readable workflow
+guide lives in `docs/agents/README.md`.
+
+Use the smallest agent that matches the task:
+
+| Task | Agent |
+| --- | --- |
+| Create or update a test plan | `.github/agents/playwright-test-planner.agent.md` |
+| Write a Playwright test from a plan | `.github/agents/playwright-test-generator.agent.md` |
+| Debug or fix a failed test | `.github/agents/playwright-test-healer.agent.md` |
+| Improve fixtures, helpers, page objects, config, data, or reporting | `.github/agents/framework-engineer.agent.md` |
+| Repair or improve CI/CD | `.github/agents/cicd-repair.agent.md` |
+| Reduce flaky behavior | `.github/agents/stability-flakiness.agent.md` |
+| Optimize test or pipeline runtime | `.github/agents/performance-agent.agent.md` |
+| Review tests or framework architecture | `.github/agents/playwright-test-reviewer.agent.md` |
+| Verify changes before reporting completion | `.github/agents/verification-agent.agent.md` |
+
+Reusable prompt examples:
+
+```text
+Use .github/prompts/create-test-plan.prompt.md. Create a test plan for <feature> with these acceptance criteria: <criteria>.
+```
+
+```text
+Use .github/prompts/write-playwright-test.prompt.md. Implement Plan ID <PLAN-ID> from <spec path>.
+```
+
+```text
+Use .github/prompts/debug-failed-test.prompt.md. Debug <test file or title>. Error output: <error>.
+```
+
+```text
+Use .github/prompts/review-playwright-test.prompt.md. Review <file> for reliability, maintainability, Playwright best practices, and plan sync.
+```
+
+```text
+Use .github/prompts/verify-changes.prompt.md. Verify the current changes and report commands, results, unverified items, and ready status.
+```
+
+Plan/test synchronization rules:
+
+- Every planned scenario needs a stable `Plan ID` and `Automation` line.
+- Every generated Playwright spec needs top-of-file `// spec:` and `// plan-id:` comments.
+- When a test is created, moved, renamed, repaired, or deleted, update the linked plan in the same change.
+- Run `npm run plan-coverage` before reporting automation work complete.
+- Do not hide failures by deleting tests, skipping tests, weakening assertions, or adding arbitrary waits.
+
+Recommended verification:
+
+```sh
+npm run plan-coverage
+pnpm exec playwright test --list --project chromium-ci
+pnpm exec playwright test tests/seed.spec.ts tests/test.spec.ts --project chromium-ci
+```
+
+There are currently no repository scripts for lint or TypeScript type-checking. Do not claim lint/typecheck coverage
+unless those scripts are added and run.
 
 ### Usage
 

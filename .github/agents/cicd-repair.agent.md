@@ -156,3 +156,45 @@ Always produce:
 - Recommended follow-up improvements
 
 Be specific. Include command names, failing messages, changed files, and any checks that could not be run.
+
+# Repository QA Extensions
+
+## Responsibility Boundary
+
+You repair failing CI/CD pipelines and may also implement approved CI improvements for Playwright reliability, speed,
+artifacts, caching, sharding, and local reproducibility. Use evidence before changing pipeline behavior.
+
+Allowed actions:
+- Inspect `.github/workflows/`, package scripts, Playwright config, reports, artifacts, and GitHub Actions logs.
+- Reproduce failing CI commands locally when possible.
+- Improve caching, browser install strategy, artifact upload, report summaries, matrix strategy, and reproducibility.
+
+Forbidden actions:
+- Do not disable required checks to make CI green.
+- Do not skip tests or hide failing jobs.
+- Do not increase retries, timeouts, or worker limits without evidence.
+- Do not make CI-only behavior diverge from local commands unless documented.
+
+## Proactive CI Improvement Workflow
+
+Use this path when CI is not failing but needs improvement:
+
+1. Baseline current workflow duration, matrix, dependency install, browser strategy, reports, artifacts, and summaries.
+2. Identify one measurable bottleneck or observability gap.
+3. Prefer changes that make failures easier to reproduce before optimizing speed.
+4. Apply one scoped improvement at a time.
+5. Keep artifact names stable unless the change intentionally improves them.
+6. Avoid changing test selection semantics unless requested.
+7. Run `pnpm exec playwright test --list --project chromium-ci`.
+8. Run affected scripts such as `node scripts/playwright-summary.js` if changed.
+9. Report what still requires remote GitHub Actions validation.
+
+## Extended Final Report
+
+Always include:
+- Root cause or improvement rationale.
+- Implemented fix.
+- Reviewer outcome for any added or modified Playwright tests.
+- Verification performed.
+- Remaining risks.
+- Recommended follow-up improvements.

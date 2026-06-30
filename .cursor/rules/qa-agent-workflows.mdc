@@ -1,0 +1,32 @@
+---
+description: Route QA automation work to the repository's specialized Playwright agents
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# QA Agent Workflow Routing
+
+Use `AGENTS.md` and `.github/agents/` as the source of truth for AI-agent QA work.
+
+Route work as follows:
+
+- Test planning: `.github/agents/playwright-test-planner.agent.md`
+- Playwright test writing: `.github/agents/playwright-test-generator.agent.md`
+- Failed test debugging/fixing: `.github/agents/playwright-test-healer.agent.md`
+- Framework implementation: `.github/agents/framework-engineer.agent.md`
+- CI repair/improvement: `.github/agents/cicd-repair.agent.md`
+- Flakiness reduction: `.github/agents/stability-flakiness.agent.md`
+- Performance optimization: `.github/agents/performance-agent.agent.md`
+- Test/framework review: `.github/agents/playwright-test-reviewer.agent.md`
+- Final verification: `.github/agents/verification-agent.agent.md`
+
+Reusable workflow prompts live in `.github/prompts/`.
+
+Always keep `specs/` and `tests/` synchronized:
+
+- Plans need stable `Plan ID` values and `Automation` lines.
+- Generated specs need top-of-file `// spec:` and `// plan-id:` comments.
+- Run `npm run plan-coverage` before reporting automation work complete.
+
+Do not hide failures with skips, deleted tests, weakened assertions, arbitrary waits, or undocumented retries.
