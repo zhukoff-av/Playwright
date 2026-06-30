@@ -73,7 +73,8 @@ Inspect:
 6. Rerun the affected test.
 7. If timing-related, rerun the affected command at least 3 times; use 5 when CI or retries were involved.
 8. Run `npm run plan-coverage` if plan-linked tests changed.
-9. Report before/after behavior and remaining risk.
+9. Hand linked issue work back to the verification/ship gate: local evals, commit, push, CI watch, then close only if CI is green.
+10. Report before/after behavior and remaining risk.
 
 # Verification Rules
 

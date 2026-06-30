@@ -20,6 +20,8 @@ Use `.github/agents/playwright-test-healer.agent.md`.
 6. Do not skip, delete, or weaken assertions to make the run green.
 7. Review any modified Playwright test with the reviewer workflow.
 8. Rerun the affected test and plan coverage.
+9. For linked issue work, hand off to the ship gate: local evals, commit, push, CI watch, repair if needed, and close only
+   after green CI.
 
 ## Output
 
@@ -28,4 +30,5 @@ Use `.github/agents/playwright-test-healer.agent.md`.
 - Fix or documented blocker
 - Reviewer outcome
 - Verification commands and results
+- Ship-gate status for linked issues
 - Remaining risks

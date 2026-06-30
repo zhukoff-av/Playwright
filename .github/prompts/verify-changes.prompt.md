@@ -14,7 +14,8 @@ Use `.github/agents/verification-agent.agent.md`.
 3. Run the smallest relevant verification first.
 4. Run broader checks for shared framework, config, or CI changes.
 5. For agent docs, search for stale paths, conflicting responsibilities, missing prompts, and incorrect router links.
-6. Classify failures clearly and do not mark the work ready if required checks fail.
+6. For linked issue completion, verify the fix was committed, pushed, and GitHub Actions passed for the pushed commit.
+7. Classify failures clearly and do not mark the work ready if required checks fail.
 
 ## Default Commands
 
@@ -30,4 +31,5 @@ pnpm exec playwright test tests/seed.spec.ts tests/test.spec.ts --project chromi
 - Commands run and results
 - Failure classification if any command failed
 - Unverified items and why
+- Pushed commit and CI run URL for linked issue completion
 - Ready/not ready status

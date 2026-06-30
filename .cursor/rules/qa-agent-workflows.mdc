@@ -30,3 +30,6 @@ Always keep `specs/` and `tests/` synchronized:
 - Run `npm run plan-coverage` before reporting automation work complete.
 
 Do not hide failures with skips, deleted tests, weakened assertions, arbitrary waits, or undocumented retries.
+
+For linked GitHub issues, never close or report the issue complete after local validation alone. The fix must be
+committed, pushed, and verified by green GitHub Actions for the pushed commit first.

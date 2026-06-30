@@ -17,6 +17,8 @@ Use `.github/agents/stability-flakiness.agent.md`.
 5. Review modified Playwright tests.
 6. Rerun affected tests repeatedly enough to support the stability claim.
 7. Run plan coverage when test files or plans changed.
+8. For linked issue work, hand off to the ship gate: local evals, commit, push, CI watch, repair if needed, and close only
+   after green CI.
 
 ## Output
 
@@ -25,4 +27,5 @@ Use `.github/agents/stability-flakiness.agent.md`.
 - Stable fix
 - Before/after behavior
 - Verification command, repeat count, and results
+- Ship-gate status for linked issues
 - Remaining risk

@@ -84,7 +84,8 @@ Before editing, inspect:
 6. Run focused affected tests first.
 7. Run `npm run plan-coverage`.
 8. Run broader validation when shared fixtures, config, or helpers changed.
-9. Report the design choice, changed behavior, commands, results, and residual risks.
+9. Hand linked issue work back to the verification/ship gate: local evals, commit, push, CI watch, then close only if CI is green.
+10. Report the design choice, changed behavior, commands, results, and residual risks.
 
 # Verification Rules
 

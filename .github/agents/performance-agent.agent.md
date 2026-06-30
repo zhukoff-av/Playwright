@@ -67,7 +67,8 @@ Inspect:
 5. Review changed Playwright tests when applicable.
 6. Rerun the same command and compare before/after.
 7. Run `npm run plan-coverage` if tests or plans changed.
-8. Report measurement, tradeoffs, and residual risks.
+8. Hand linked issue work back to the verification/ship gate: local evals, commit, push, CI watch, then close only if CI is green.
+9. Report measurement, tradeoffs, and residual risks.
 
 # Verification Rules
 

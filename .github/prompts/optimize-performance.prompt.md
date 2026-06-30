@@ -17,6 +17,8 @@ Use `.github/agents/performance-agent.agent.md`.
 5. Review modified Playwright tests, if any.
 6. Rerun the same command and compare.
 7. Run plan coverage when tests or plans changed.
+8. For linked issue work, hand off to the ship gate: local evals, commit, push, CI watch, repair if needed, and close only
+   after green CI.
 
 ## Output
 
@@ -25,4 +27,5 @@ Use `.github/agents/performance-agent.agent.md`.
 - Optimization
 - After command and runtime/result
 - Coverage/stability impact
+- Ship-gate status for linked issues
 - Follow-ups

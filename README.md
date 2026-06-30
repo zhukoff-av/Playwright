@@ -82,7 +82,8 @@ Runs tests specifically in Chromium with a visible browser window.
 Use the `codex:issue` script to have a local Codex agent implement a GitHub issue.
 The script fetches the issue with the GitHub CLI, starts Codex in this repository, and
 passes the issue body and comments to the agent. After the agent finishes, the script
-validates the changes, commits them, and closes the issue.
+runs local evals, commits the changes, pushes the branch, checks GitHub Actions for the pushed commit, and closes the
+issue only after CI is green.
 
 For example, to run Codex against issue `#7`:
 
@@ -99,11 +100,16 @@ Requirements:
 Successful run lifecycle:
 
 1. Fetches the GitHub issue.
-2. Runs the Codex agent against the issue content.
+2. Runs the Codex agent against the issue content using the loop: trace every run, judge evidence, diagnose, fix,
+   validate, ship.
 3. Requires the agent to produce repository changes.
-4. Runs `pnpm exec playwright test`.
-5. Commits validated changes with an issue-specific commit message.
-6. Closes the GitHub issue unless `CODEX_ISSUE_AUTO_CLOSE=false`.
+4. Runs local evals: `npm run plan-coverage` and `pnpm exec playwright test` by default.
+5. Feeds failed local eval logs back to Codex for another diagnose/fix attempt, up to `CODEX_ISSUE_MAX_ATTEMPTS`.
+6. Commits only after local evals pass.
+7. Pushes the commit to the current upstream branch, or pushes with upstream tracking if needed.
+8. Watches GitHub Actions for the pushed commit.
+9. If CI fails, feeds failed CI logs and run memory back to Codex for another repair attempt.
+10. Closes the GitHub issue only after the pushed commit has green CI, unless `CODEX_ISSUE_AUTO_CLOSE=false`.
 
 Optional settings:
 
@@ -111,11 +117,23 @@ Optional settings:
 
       pnpm run codex:issue -- 7 zhukoff-av/Playwright
 
-- Leave the issue open after a successful agent run:
+- Leave the issue open after push and green CI:
 
       CODEX_ISSUE_AUTO_CLOSE=false pnpm run codex:issue -- 7
 
-  The script still validates and commits the changes before leaving the issue open.
+  The script still validates, commits, pushes, and checks CI, then posts a status comment instead of closing.
+
+- Override local evals:
+
+      CODEX_ISSUE_VALIDATE_CMD='npm run plan-coverage && pnpm exec playwright test --project chromium-ci' pnpm run codex:issue -- 7
+
+- Change the repair loop limit:
+
+      CODEX_ISSUE_MAX_ATTEMPTS=5 pnpm run codex:issue -- 7
+
+- Dry-run the harness without Codex, git push, CI watch, comments, or issue close:
+
+      CODEX_ISSUE_DRY_RUN=true pnpm run codex:issue -- 7
 
 ### AI Agent QA Workflows
 

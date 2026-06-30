@@ -116,6 +116,7 @@ Always report:
 - Fix applied or blocker documented.
 - Reviewer outcome for modified tests.
 - Verification commands and results.
+- Ship-gate status for linked issues: committed, pushed, CI checked, and issue closed only when CI is green.
 - Remaining risks.
 
 ## Examples

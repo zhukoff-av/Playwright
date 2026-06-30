@@ -43,6 +43,21 @@ Default loop for every agent:
 7. Report commands, results, failures, and remaining risks.
 8. Recommend the next step only after evidence is collected.
 
+## Agent Loop Stack
+
+All implementation and repair workflows use this loop:
+
+`trace every run -> judge with an LLM -> diagnose -> fix -> validate -> commit -> push -> check CI -> repair if needed -> close only when CI is green`
+
+- Trace: keep command output, Playwright traces, CI logs, run URLs, and repair attempts.
+- Judge: review the trace before changing code; do not repeat failed fixes.
+- Diagnose: classify the failure as product, test, framework, data, environment, CI, flaky timing, or unclear.
+- Fix: apply the smallest safe code or workflow change.
+- Harness: let the wrapper or verification workflow own evals, commit, push, CI watch, and issue close.
+- Evals: run local checks before commit and GitHub Actions checks after push.
+- Memory: carry issue details, attempts, commits, logs, CI URLs, diagnoses, and rejected fixes into the next attempt.
+- Ship: a linked GitHub issue is complete only after the fix is committed, pushed, and required CI is green.
+
 ## Capability Matrix
 
 | Capability | Existing support | Missing or weak area | Recommended agent |
@@ -115,6 +130,7 @@ coverage unless those commands are added and run.
   push the current branch automatically when the user asks for issue/PR completion.
 - If there is no upstream branch, push with upstream tracking for the current branch.
 - If commit or push fails, report the failure and leave the linked GitHub issue open.
+- Closing a GitHub issue before pushing the fix is forbidden.
 
 ## CI Status Gate
 
@@ -122,6 +138,7 @@ coverage unless those commands are added and run.
 - If required CI fails, invoke `.github/agents/cicd-repair.agent.md` immediately.
 - Do not close a linked issue or report it complete until required CI passes, or until a product defect or external CI
   infrastructure failure is identified and documented.
+- Local validation alone is never enough to close a linked GitHub issue.
 
 ## Repository Assessment for Agents
 

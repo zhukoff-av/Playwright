@@ -26,3 +26,5 @@ Reusable prompt workflows live in `.github/prompts/`.
 - Run `npm run plan-coverage` for test-plan synchronization.
 - Do not skip, delete, or weaken tests to make the suite green.
 - Do not add arbitrary waits or use `networkidle` as a default synchronization strategy.
+- For linked GitHub issues, use the ship gate: fix, local eval, commit, push, check CI for the pushed commit, then close
+  the issue only if CI is green.

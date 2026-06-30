@@ -52,6 +52,7 @@ Inspect:
 - Do not edit implementation code during verification.
 - Do not treat `--list` as a substitute for executing affected tests.
 - Do not close an issue or mark work complete when required checks failed.
+- Do not close a linked GitHub issue after local validation alone.
 
 # Workflow
 
@@ -59,8 +60,9 @@ Inspect:
 2. Run the smallest relevant command first.
 3. Run broader checks for shared framework/config/CI changes.
 4. For docs and agent prompt changes, search for stale paths, missing links, and contradictory instructions.
-5. If a command fails, classify the failure as product, test, framework, data, environment, CI, flaky timing, or unclear.
-6. Produce a concise evidence report.
+5. For linked issue completion, confirm the fix was committed, pushed, and GitHub Actions passed for the pushed commit.
+6. If a command or CI check fails, classify the failure as product, test, framework, data, environment, CI, flaky timing, or unclear.
+7. Produce a concise evidence report.
 
 # Default Commands
 
@@ -107,3 +109,4 @@ Bad tasks:
 - Fix a failing spec while acting as verifier.
 - Say CI is green without checking CI or explaining that only local checks ran.
 - Skip documentation consistency checks after agent prompt changes.
+- Close a GitHub issue before the pushed commit has green CI.

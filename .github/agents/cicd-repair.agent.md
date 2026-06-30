@@ -101,6 +101,12 @@ Repeat this loop until the pipeline is stable:
    - If any repeated run fails, continue the investigation loop.
    - Do not mask instability with retries, skips, or larger timeouts unless the underlying evidence supports that change.
 
+7. Ship gate for linked issues
+   - If the CI repair is part of a linked GitHub issue, do not close or report the issue complete after local validation.
+   - Commit the repair, push it, watch GitHub Actions for the pushed commit, and close the issue only after CI is green.
+   - If pushed CI fails, collect failed run logs and continue the trace -> judge -> diagnose -> fix loop.
+   - If CI cannot be verified for the pushed commit, leave the issue open and report the blocker.
+
 # GitHub Actions Log Guidance
 
 When GitHub CLI is available and authenticated:
@@ -141,6 +147,7 @@ Stop only when:
 - any added, moved, renamed, deleted, or modified Playwright test remains synchronized with its test-plan scenario via
   `// plan-id:` and the scenario `Automation` line;
 - relevant local verification passes;
+- any linked GitHub issue fix has been committed, pushed, and verified by green CI for the pushed commit;
 - affected tests pass repeatedly when flakiness is suspected;
 - remaining risks are documented.
 

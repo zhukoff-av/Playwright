@@ -87,6 +87,27 @@ Default loop:
 7. Report evidence.
 8. Recommend the next step.
 
+## Agent Loop Stack
+
+Implementation and repair agents must use this loop:
+
+```text
+trace every run -> judge with an LLM -> diagnose -> fix -> validate -> commit -> push -> check CI -> repair if needed -> close issue only when CI is green
+```
+
+- Trace every run with local command logs, Playwright traces, CI logs, run URLs, and attempt summaries.
+- Judge the trace before making the next change.
+- Diagnose the root cause and classify failures clearly.
+- Fix only the smallest safe scope.
+- Use the harness for evals, commit, push, CI watch, and issue close.
+- Keep memory across attempts: issue metadata, attempts, commits, pushed refs, local eval summaries, CI URLs, diagnoses,
+  and failed approaches.
+- Run evals locally before commit and in GitHub Actions after push.
+- Ship only after the pushed commit has green CI.
+
+For `pnpm run codex:issue`, `scripts/codex-issue.sh` enforces this gate. A linked GitHub issue must remain open if local
+validation fails, commit fails, push fails, CI fails, or no CI run can be verified for the pushed commit.
+
 ## Reusable Workflows
 
 ### New Feature Test Plan Workflow

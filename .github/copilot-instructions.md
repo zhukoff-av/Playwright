@@ -23,4 +23,6 @@ instructions and `.github/prompts/` as reusable workflow prompts.
 - Run `npm run plan-coverage` before reporting test automation work complete.
 - Do not hide failures by deleting tests, skipping tests, weakening assertions, or adding arbitrary waits.
 - Do not claim lint or type-check success unless scripts are added and run.
+- Do not close or report a linked GitHub issue complete until the fix is committed, pushed, and GitHub Actions is green
+  for the pushed commit.
 - Use `docs/agents/README.md` for the human-readable workflow guide.
