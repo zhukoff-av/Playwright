@@ -51,7 +51,7 @@ jobs:
           - topic: demoqa
             paths: tests/demoqa*.spec.ts
           - topic: github-repository
-            paths: tests/github/repository/**/*.spec.ts
+            paths: tests/github/repository
           - topic: todo
             paths: tests/form.spec.ts tests/todo-basic-flow.spec.ts
           - topic: smoke
