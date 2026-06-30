@@ -56,6 +56,9 @@ jobs:
             paths: tests/form.spec.ts tests/todo-basic-flow.spec.ts
           - topic: smoke
             paths: tests/seed.spec.ts tests/test.spec.ts
+    env:
+      PW_REPORT_TOPIC: ${{ matrix.topic }}
+      PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/reports/${{ matrix.topic }}.json
     steps:
       - uses: actions/checkout@v4
 
@@ -74,7 +77,11 @@ jobs:
       # - name: Install Playwright Browsers
       #   run: pnpm playwright install --with-deps
       - name: Run ${{ matrix.topic }} Playwright tests
-        run: pnpm exec playwright test ${{ matrix.paths }} --project chromium-ci
+        run: pnpm exec playwright test ${{ matrix.paths }} --project chromium-ci --reporter=github,json,html,list
+
+      - name: Add ${{ matrix.topic }} summary
+        if: always()
+        run: node scripts/playwright-summary.js topic --topic "${{ matrix.topic }}" --report "test-results/reports/${{ matrix.topic }}.json" --html-artifact "playwright-html-report-${{ matrix.topic }}"
 
       - name: Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
@@ -83,3 +90,33 @@ jobs:
           name: playwright-html-report-${{ matrix.topic }}
           path: playwright-report/
           retention-days: 30
+
+      - name: Upload Playwright JSON Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-json-report-${{ matrix.topic }}
+          path: test-results/reports/${{ matrix.topic }}.json
+          retention-days: 30
+
+  report-summary:
+    name: report-summary
+    needs: tests
+    if: always()
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Playwright JSON Reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: playwright-json-report-*
+          path: test-results/reports
+          merge-multiple: true
+
+      - name: Add aggregate Playwright summary
+        run: node scripts/playwright-summary.js aggregate --reports-dir test-results/reports
