@@ -58,7 +58,6 @@ jobs:
             paths: tests/seed.spec.ts tests/test.spec.ts
     env:
       PW_REPORT_TOPIC: ${{ matrix.topic }}
-      PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/reports/${{ matrix.topic }}.json
     steps:
       - uses: actions/checkout@v4
 
@@ -77,7 +76,13 @@ jobs:
       # - name: Install Playwright Browsers
       #   run: pnpm playwright install --with-deps
       - name: Run ${{ matrix.topic }} Playwright tests
-        run: pnpm exec playwright test ${{ matrix.paths }} --project chromium-ci --reporter=github,json,html,list
+        run: pnpm exec playwright test ${{ matrix.paths }} --project chromium-ci --reporter=github,blob,list
+
+      - name: Build ${{ matrix.topic }} reports
+        if: always()
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: test-results/reports/${{ matrix.topic }}.json
+        run: pnpm exec playwright merge-reports --reporter=json,html blob-report
 
       - name: Add ${{ matrix.topic }} summary
         if: always()
