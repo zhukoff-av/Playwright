@@ -28,6 +28,14 @@ function escapeCell(value) {
     .replace(/\|/g, "\\|");
 }
 
+function statusLabel(failed) {
+  return failed > 0 ? "🔴 **Failed**" : "🟢 **Passed**";
+}
+
+function countLabel(value, marker) {
+  return value > 0 ? `${marker} **${value}**` : `${value}`;
+}
+
 function readReport(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
@@ -98,15 +106,14 @@ function summarizeReport(report, topic) {
 }
 
 function renderTopic(summary, htmlArtifactName) {
-  const status = summary.failed > 0 ? "Failed" : "Passed";
   const lines = [
     `## Playwright: ${summary.topic}`,
     "",
-    `**Status:** ${status}`,
+    `**Status:** ${statusLabel(summary.failed)}`,
     "",
     "| Total | Passed | Failed | Flaky | Skipped | Duration |",
     "| ---: | ---: | ---: | ---: | ---: | ---: |",
-    `| ${summary.total} | ${summary.passed} | ${summary.failed} | ${summary.flaky} | ${summary.skipped} | ${(summary.durationMs / 1000).toFixed(1)}s |`,
+    `| **${summary.total}** | ${countLabel(summary.passed, "🟢")} | ${countLabel(summary.failed, "🔴")} | ${countLabel(summary.flaky, "🟡")} | ${countLabel(summary.skipped, "⚪")} | **${(summary.durationMs / 1000).toFixed(1)}s** |`,
     "",
   ];
 
@@ -146,23 +153,22 @@ function renderAggregate(summaries) {
   );
 
   const lines = [
-    "## Playwright Test Summary",
+    "## Summary",
     "",
-    failedTopics.length ? `**Failed topics:** ${failedTopics.map((summary) => summary.topic).join(", ")}` : "**All topics passed.**",
+    failedTopics.length ? `🔴 **Failed topics:** ${failedTopics.map((summary) => summary.topic).join(", ")}` : "🟢 **All topics passed.**",
     "",
     "| Topic | Status | Total | Passed | Failed | Flaky | Skipped | Duration | HTML Report Artifact |",
     "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
   ];
 
   for (const summary of summaries) {
-    const status = summary.failed > 0 ? "Failed" : "Passed";
     lines.push(
-      `| ${escapeCell(summary.topic)} | ${status} | ${summary.total} | ${summary.passed} | ${summary.failed} | ${summary.flaky} | ${summary.skipped} | ${(summary.durationMs / 1000).toFixed(1)}s | \`playwright-html-report-${escapeCell(summary.topic)}\` |`,
+      `| ${escapeCell(summary.topic)} | ${statusLabel(summary.failed)} | **${summary.total}** | ${countLabel(summary.passed, "🟢")} | ${countLabel(summary.failed, "🔴")} | ${countLabel(summary.flaky, "🟡")} | ${countLabel(summary.skipped, "⚪")} | **${(summary.durationMs / 1000).toFixed(1)}s** | \`playwright-html-report-${escapeCell(summary.topic)}\` |`,
     );
   }
 
   lines.push(
-    `| **Total** | ${totals.failed > 0 ? "Failed" : "Passed"} | **${totals.total}** | **${totals.passed}** | **${totals.failed}** | **${totals.flaky}** | **${totals.skipped}** | **${(totals.durationMs / 1000).toFixed(1)}s** | |`,
+    `| **Total** | ${statusLabel(totals.failed)} | **${totals.total}** | ${countLabel(totals.passed, "🟢")} | ${countLabel(totals.failed, "🔴")} | ${countLabel(totals.flaky, "🟡")} | ${countLabel(totals.skipped, "⚪")} | **${(totals.durationMs / 1000).toFixed(1)}s** | |`,
   );
 
   if (failedTopics.length) {
@@ -208,7 +214,7 @@ if (mode === "topic") {
   const reportsDir = getArg("--reports-dir", "test-results/reports");
 
   if (!fs.existsSync(reportsDir)) {
-    appendSummary(`## Playwright Test Summary\n\nNo JSON reports found at \`${reportsDir}\`.\n\n`);
+    appendSummary(`## Summary\n\nNo JSON reports found at \`${reportsDir}\`.\n\n`);
     process.exit(0);
   }
 
@@ -221,7 +227,7 @@ if (mode === "topic") {
       return summarizeReport(readReport(path.join(reportsDir, file)), topic);
     });
 
-  appendSummary(summaries.length ? renderAggregate(summaries) : `## Playwright Test Summary\n\nNo JSON reports found at \`${reportsDir}\`.\n\n`);
+  appendSummary(summaries.length ? renderAggregate(summaries) : `## Summary\n\nNo JSON reports found at \`${reportsDir}\`.\n\n`);
 } else {
   console.error(`Unknown mode: ${mode}`);
   process.exit(1);

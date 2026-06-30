@@ -104,8 +104,8 @@ jobs:
           path: test-results/reports/${{ matrix.topic }}.json
           retention-days: 30
 
-  report-summary:
-    name: report-summary
+  summary:
+    name: Summary
     needs: tests
     if: always()
     timeout-minutes: 10
