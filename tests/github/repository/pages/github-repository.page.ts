@@ -25,7 +25,7 @@ export class GitHubRepositoryPage {
       .getByRole("link", { name: /^Issues\b/ })
       .and(page.locator('a[href="/zhukoff-av/Playwright/issues"]'));
     this.pullRequestsLink = this.repositoryNavigation
-      .getByRole("link", { name: "Pull requestz", exact: true })
+      .getByRole("link", { name: "Pull requests", exact: true })
       .and(page.locator('a[href="/zhukoff-av/Playwright/pulls"]'));
   }
 
