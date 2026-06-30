@@ -8,7 +8,7 @@ on:
   #   - cron: '* * * * *'
   #? minute - hour - day - month - day of week
 jobs:
-  test:
+  setup:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     permissions:
@@ -33,13 +33,53 @@ jobs:
 
       # - name: Install Playwright Browsers
       #   run: pnpm playwright install --with-deps
-      - name: Run Playwright tests
-        run: pnpm exec playwright test --project chromium-ci
+
+  tests:
+    name: ${{ matrix.topic }}
+    needs: setup
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    container:
+      image: mcr.microsoft.com/playwright:v1.60.0-noble
+      options: --user 1001
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - topic: demoqa
+            paths: tests/demoqa*.spec.ts
+          - topic: github-repository
+            paths: tests/github/repository/**/*.spec.ts
+          - topic: todo
+            paths: tests/form.spec.ts tests/todo-basic-flow.spec.ts
+          - topic: smoke
+            paths: tests/seed.spec.ts tests/test.spec.ts
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.5.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # - name: Install Playwright Browsers
+      #   run: pnpm playwright install --with-deps
+      - name: Run ${{ matrix.topic }} Playwright tests
+        run: pnpm exec playwright test ${{ matrix.paths }} --project chromium-ci
 
       - name: Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-html-report
+          name: playwright-html-report-${{ matrix.topic }}
           path: playwright-report/
           retention-days: 30
