@@ -40,7 +40,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium-ci",
-      testMatch: "test.spec.ts",
+      testMatch: "**/*.spec.ts",
       use: {
         ...devices["Desktop Chrome"],
       },

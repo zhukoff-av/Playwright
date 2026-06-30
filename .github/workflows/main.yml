@@ -31,10 +31,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-#      - name: Install Playwright Browsers
-#        run: pnpm playwright install --with-deps
+      # - name: Install Playwright Browsers
+      #   run: pnpm playwright install --with-deps
       - name: Run Playwright tests
-        run: pnpm exec playwright test --project chromium-ci --grep '@githubAction'
+        run: pnpm exec playwright test --project chromium-ci
 
       - name: Upload Playwright HTML Report
         uses: actions/upload-artifact@v4
